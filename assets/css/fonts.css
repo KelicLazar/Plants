@@ -1,0 +1,111 @@
+@font-face {
+  font-family: 'Manrope';
+  src: url('~/assets/fonts/Manrope-VariableFont_wght.woff') format('woff'),
+    url('~/assets/fonts/Manrope-VariableFont_wght.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Manrope';
+  src: url('~/assets/fonts/Manrope-SemiBold.woff') format('woff'),
+    url('~/assets/fonts/Manrope-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Manrope';
+  src: url('~/assets/fonts/Manrope-Medium.woff') format('woff'),
+    url('~/assets/fonts/Manrope-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Manrope';
+  src: url('~/assets/fonts/Manrope-Regular.woff') format('woff'),
+    url('~/assets/fonts/Manrope-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Manrope';
+  src: url('~/assets/fonts/Manrope-Regular.woff') format('woff'),
+    url('~/assets/fonts/Manrope-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'NeueHaasDisplay';
+  src: url('~/assets/fonts/NeueHaasDisplayRoman.woff') format('woff'),
+    url('~/assets/fonts/NeueHaasDisplayRoman.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'NeueHaasDisplay';
+  src: url('~/assets/fonts/NeueHaasDisplayMediu.woff') format('woff'),
+    url('~/assets/fonts/NeueHaasDisplayMediu.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'NeueHaasDisplay';
+  src: url('~/assets/fonts/NeueHaasDisplayBold.woff') format('woff'),
+    url('~/assets/fonts/NeueHaasDisplayBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Walkway';
+  src: url('~/assets/fonts/Walkway_SemiBold.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Zodiak";
+  src: url("~/assets/fonts/Zodiak-Light.woff") format("woff"),
+    url("~/assets/fonts/Zodiak-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Zodiak";
+  src: url("~/assets/fonts/Zodiak-Regular.woff") format("woff"),
+    url("~/assets/fonts/Zodiak-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Zodiak";
+  src: url("~/assets/fonts/Zodiak-Bold.woff") format("woff"),
+    url("~/assets/fonts/Zodiak-Bold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Onest";
+  src: url("~/assets/fonts/Onest-Regular.woff") format("woff"),
+    url("~/assets/fonts/Onest-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+    --font-sans: "Onest";
+    --font-serif: "Onest";
+    
+}

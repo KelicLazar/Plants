@@ -1,0 +1,6 @@
+.section {
+      @apply lg:py-20 py-8 px-4;
+}
+.section-container {
+      @apply max-w-400 w-full m-auto;
+}
