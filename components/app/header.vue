@@ -38,12 +38,18 @@ onMounted(() => {
       <!-- Navbar -->
       <div class="navbar  m-auto px-3 lg:px-0 mt-0 max-w-400">
         <div class=" flex-1 py-2">
-          <span class="p-2 text-xl">Nuxt Starter Theme</span>
+          <NuxtLink to="/" class="p-2 text-xl">
+            Nuxt Starter Theme
+          </NuxtLink>
         </div>
         <div class="hidden flex-none lg:block">
           <ul class="menu menu-horizontal">
             <li><a>Navbar Item 1</a></li>
-            <li><a>Navbar Item 2</a></li>
+            <li>
+              <NuxtLink to="/login">
+                Login
+              </NuxtLink>
+            </li>
           </ul>
         </div>
         <UiThemeToggle />
