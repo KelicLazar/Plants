@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { ref, watch } from "vue";
-
 const themes = [
   "light",
   "dark",
@@ -8,10 +6,10 @@ const themes = [
   "bumblebee",
   "emerald",
   "corporate",
-  // "synthwave",
+  "synthwave",
   "retro",
-  // "cyberpunk",
-  // "valentine",
+  "cyberpunk",
+  "valentine",
   "halloween",
   "garden",
   "forest",
@@ -23,32 +21,16 @@ const themes = [
   "black",
   "luxury",
   "dracula",
-  // "cmyk",
+  "cmyk",
   "autumn",
   "autumn-dark",
   "business",
-  // "acid",
+  "acid",
   "lemonade",
   "night",
   "coffee",
   "winter",
 ];
-
-const selectedTheme = ref<string>("light");
-
-// Apply theme on change
-watch(selectedTheme, (newTheme) => {
-  document.documentElement.setAttribute("data-theme", newTheme);
-  localStorage.setItem("theme", newTheme);
-});
-
-// Initialize from localStorage
-onBeforeMount(() => {
-  const storedTheme = localStorage.getItem("theme");
-  if (storedTheme && themes.includes(storedTheme)) {
-    selectedTheme.value = storedTheme;
-  }
-});
 </script>
 
 <template>
@@ -73,14 +55,13 @@ onBeforeMount(() => {
     >
       <li v-for="theme, index in themes" :key="theme">
         <input
-          v-model="selectedTheme"
           :tabindex="index"
           type="radio"
           :value="theme"
           name="theme-dropdown"
-          :class="{ 'bg-primary': selectedTheme === theme, 'text-primary-content': selectedTheme === theme }"
-          class="theme-controller  btn btn-sm btn-block btn-ghost justify-start"
+          class="btn theme-controller btn-sm btn-block btn-ghost justify-start"
           :aria-label="theme.charAt(0).toUpperCase() + theme.slice(1)"
+          @change="$colorMode.preference = theme"
         >
       </li>
     </ul>

@@ -1,9 +1,4 @@
 @import "tailwindcss";
-@plugin "daisyui" {
-  themes: all;
-  
-}
-
 @plugin "daisyui/theme" {
   name: "autumn-dark";
   default: false;
@@ -38,6 +33,12 @@
   --depth: 1;
   --noise: 0;
 }
+@plugin "daisyui" {
+  themes: all
+  
+}
+
+
 
 :root,*[data-theme]{
  --radius-selector: 0rem;
