@@ -1,3 +1,7 @@
+<script lang="ts" setup>
+const authStore = useAuthStore();
+</script>
+
 <template>
   <div class="hero bg-base-200 min-h-screen">
     <div class="hero-content flex-col lg:grid lg:grid-cols-2  gap-0">
@@ -24,7 +28,7 @@
             <div class="divider">
               OR
             </div>
-            <button class="btn  bg-[#db4437]  font-light ">
+            <button class="btn  bg-[#db4437]  font-light " @click="authStore.signIn">
               <Icon name="tabler:brand-google-filled" size="20" />
               Login with Google
             </button>

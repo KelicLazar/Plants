@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 const header = ref();
-
+const authStore = useAuthStore();
 onMounted(() => {
   let prevPosY = window.scrollY;
   if (window.scrollY > 10) {
@@ -45,7 +45,18 @@ onMounted(() => {
         <div class="hidden flex-none lg:block">
           <ul class="menu menu-horizontal">
             <li><a>Navbar Item 1</a></li>
-            <li>
+            <li v-if="authStore?.user">
+              <span>
+                {{ authStore.user?.email }}
+              </span>
+            </li>
+            <li v-if="authStore.user">
+              <button @click="authStore.signOut">
+                Logout
+              </button>
+            </li>
+
+            <li v-if="!authStore.user">
               <NuxtLink to="/login">
                 Login
               </NuxtLink>
