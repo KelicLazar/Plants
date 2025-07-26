@@ -8,6 +8,20 @@
       "when": 1753356434614,
       "tag": "0000_purple_maddog",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1753532495823,
+      "tag": "0001_mixed_zodiak",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1753532567328,
+      "tag": "0002_absurd_skin",
+      "breakpoints": true
     }
   ]
 }
