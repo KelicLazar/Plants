@@ -1,6 +1,7 @@
 import { drizzle } from "drizzle-orm/libsql";
 
 import env from "../env";
+import * as schema from "./schema/index";
 
 const db = drizzle({
   connection: {
@@ -8,5 +9,7 @@ const db = drizzle({
     authToken: env.TURSO_AUTH_TOKEN,
 
   },
+  schema,
+
 });
 export default db;

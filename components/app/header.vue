@@ -44,7 +44,16 @@ onMounted(() => {
         </div>
         <div class="hidden flex-none lg:block">
           <ul class="menu menu-horizontal">
-            <li><a>Navbar Item 1</a></li>
+            <li v-if="authStore.user">
+              <NuxtLink to="/dashboard/add-category">
+                Add Category
+              </NuxtLink>
+            </li>
+            <li v-if="authStore.user">
+              <NuxtLink to="/dashboard/add-product">
+                Add Product
+              </NuxtLink>
+            </li>
             <li v-if="authStore?.user">
               <span>
                 {{ authStore.user?.email }}
