@@ -6,7 +6,7 @@ await authStore.init();
 <template>
   <div>
     <AppHeader />
-    <main class="pt-30 min-h-lvh">
+    <main class="min-h-lvh">
       <slot />
     </main>
     <AppFooter />

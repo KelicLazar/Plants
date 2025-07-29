@@ -4,11 +4,11 @@ import type { FetchError } from "ofetch";
 import { InsertCategory } from "~/lib/db/schema";
 
 const { $csrfFetch } = useNuxtApp();
-const submitError = ref("");
 const router = useRouter();
 const categoryStore = useCategoryStore();
+
+const submitError = ref("");
 const categories = computed(() => categoryStore.categories);
-console.log(categories);
 
 const { handleSubmit, errors, setErrors } = useForm({
   validationSchema: toTypedSchema(InsertCategory as any),
@@ -35,7 +35,7 @@ const onSubmit = handleSubmit(async (values) => {
 </script>
 
 <template>
-  <div class="container max-w-md-mx-auto p-4 m-auto text-center">
+  <div class="container  max-w-md-mx-auto p-4 pt-30 m-auto text-center">
     <h1 class="text-lg">
       Add Product Category
     </h1>

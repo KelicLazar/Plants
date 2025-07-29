@@ -8,6 +8,8 @@ const EnvSchema = z.object({
   TURSO_AUTH_TOKEN: z.string(),
   GOOGLE_CLIENT_ID: z.string(),
   GOOGLE_CLIENT_SECRET: z.string(),
+  CLAUDINARY_PRESET: z.string(),
+  CLAUDINARY_CLOUD_NAME: z.string(),
 });
 
 export type EnvSchema = z.infer<typeof EnvSchema>;

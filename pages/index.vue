@@ -1,12 +1,13 @@
 <script lang="ts" setup>
-const productStore = useProductStore();
+const productsStore = useProductsStore();
 
-const products = computed(() => productStore.products);
+const products = computed(() => productsStore.products);
 </script>
 
 <template>
   <div class="">
     <BlockHero />
+    <AppProductCard v-for="product in products" :key="product.id" :product="product" />
     <BlockCarousel />
     <div v-for="product, index in products" :key="product.id">
       <span class="text-xl">

@@ -1,21 +1,20 @@
 <template>
   <div
     class="hero min-h-screen"
-    style="background-image: url(https://img.daisyui.com/images/stock/photo-1507358522600-9f71e620c44e.webp);"
+    style="background-image: url(https://res.cloudinary.com/dnklric2m/image/upload/v1753808564/pexels-fotios-photos-1314133_jgwqu8.jpg);"
   >
     <div class="hero-overlay" />
     <div class="hero-content text-neutral-content text-center">
-      <div class="max-w-md">
+      <div class="max-w-lg">
         <h1 class="mb-5 text-5xl font-bold">
-          Hello there
+          Little Green Wonders
         </h1>
         <p class="mb-5">
-          Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem
-          quasi. In deleniti eaque aut repudiandae et a id nisi.
+          Discover a handpicked collection of small cacti and colorful succulents — low-maintenance plants that bring life, charm, and calm to any space. Perfect for desks, shelves, and sunny corners. Rooted in beauty, grown with love.
         </p>
-        <button class="btn btn-primary">
-          Get Started
-        </button>
+        <NuxtLink to="/products" class="btn btn-primary">
+          Explore Plants
+        </NuxtLink>
       </div>
     </div>
   </div>

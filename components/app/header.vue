@@ -38,8 +38,9 @@ onMounted(() => {
       <!-- Navbar -->
       <div class="navbar  m-auto px-3 lg:px-0 mt-0 max-w-400">
         <div class=" flex-1 py-2">
-          <NuxtLink to="/" class="p-2 text-xl">
-            Nuxt Starter Theme
+          <NuxtLink to="/" class="p-2 text-xl flex gap-2">
+            <Icon name="tabler:plant" size="24" />
+            Small Plants Shop
           </NuxtLink>
         </div>
         <div class="hidden flex-none lg:block">

@@ -1,13 +1,14 @@
 import { eq } from "drizzle-orm";
 import { customAlphabet } from "nanoid";
 
-import type { ProductFormType } from "../schema";
+import type { InsertProductType, ProductFormType } from "../schema";
 
 import db from "..";
 import { productCategories, products } from "../schema";
 
 const nanoid = customAlphabet("1234567890qwertyuioplkjhgfdsazxcvbnm");
-export async function getProducts() {
+export async function getProducts(page = 1, limit = 12) {
+  const offset = (page - 1) * limit;
   return db.query.products.findMany({
     with: {
       productCategories: {
@@ -16,6 +17,8 @@ export async function getProducts() {
         },
       },
     },
+    limit,
+    offset,
   });
 }
 
@@ -44,7 +47,7 @@ export async function findUniqueProductSlug(slug: string) {
   return slug;
 }
 
-export async function insertProduct(productData: ProductFormType & { slug: string }) {
+export async function insertProduct(productData: InsertProductType & { slug: string; categoryIds: string[] }) {
   const { categoryIds, ...data } = productData;
 
   const product = await db.transaction(async (tx) => {
@@ -53,7 +56,7 @@ export async function insertProduct(productData: ProductFormType & { slug: strin
     if (newProduct.id && categoryIds && categoryIds.length > 0) {
       const categoryRelations = categoryIds.map(categoryId => ({
         productId: newProduct.id,
-        categoryId,
+        categoryId: Number.parseInt(categoryId, 10),
       }));
       await tx.insert(productCategories).values(categoryRelations);
     }
