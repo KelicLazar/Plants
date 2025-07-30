@@ -59,7 +59,7 @@ onMounted(() => {
     </div>
 
     <div class="product-list section-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
-      <template v-if="productsStore.productsStatus === 'pending'">
+      <template v-if="productsStore.productsStatus === 'pending' || productsStore.productsStatus === 'idle'">
         <AppProductCardSkeleton v-for="n in 12" :key="n" />
       </template>
 
@@ -69,31 +69,6 @@ onMounted(() => {
         :key="product.id"
         :product="product"
       />
-    </div>
-
-    <div class="join m-auto my-8 flex w-fit">
-      <button class="join-item btn btn-accent btn-soft">
-        «
-      </button>
-      <button class="join-item btn btn-accent btn-soft">
-        1
-      </button>
-      <button class="join-item btn btn-accent btn-soft">
-        2
-      </button>
-      <button disabled class="join-item btn btn-accent">
-        ...
-      </button>
-      <button class="join-item btn btn-accent btn-soft">
-        99
-      </button>
-      <button class="join-item btn btn-accent btn-soft">
-        100
-      </button>
-
-      <button class="join-item btn btn-accent btn-soft">
-        »
-      </button>
     </div>
   </div>
 </template>

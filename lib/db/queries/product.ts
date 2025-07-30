@@ -61,6 +61,13 @@ export async function getProducts(
 export async function findProductBySlug(slug: string) {
   console.log(slug, "Slug from query");
   return db.query.products.findFirst({
+    with: {
+      productCategories: {
+        with: {
+          category: true,
+        },
+      },
+    },
     where: eq(products.slug, slug),
   });
 }

@@ -14,8 +14,9 @@ function isNewProduct(createdAt: number, daysAgo: number): boolean {
 
 <template>
   <div class="card group bg-base-100 w-full shadow-sm hover:bg-base-200/40 hover:-translate-y-1.5 duration-300 transition-all ">
-    <div
+    <NuxtLink
       v-if="product.mainImage || product.sideImage"
+      :to="`/products/${product.slug}`"
       class="relative w-full aspect-square overflow-hidden"
     >
       <AppProductImage
@@ -26,9 +27,9 @@ function isNewProduct(createdAt: number, daysAgo: number): boolean {
       <div v-if="isNewProduct(product.createdAt, 1)" class="absolute z-2 top-4 right-4 badge badge-secondary">
         NEW
       </div>
-    </div>
+    </NuxtLink>
 
-    <div class="card-body pb-4 ">
+    <div class="card-body pb-4 px-3">
       <h2 class="card-title text-2xl mb-2">
         <NuxtLink :to="`/products/${product.slug}`">
           {{ product.name }}
@@ -47,12 +48,16 @@ function isNewProduct(createdAt: number, daysAgo: number): boolean {
 
       <!-- <p>{{ product.description }}</p> -->
     </div>
-    <div class="card-footer  p-5 pt-2 flex  justify-between  items-end">
+    <div class="card-footer  p-3 pt-2 flex  justify-between  items-end">
       <span class="product-price badge  badge-ghost badge-soft  text-lg h-full ">
         {{ product.price }} RSD
       </span>
-      <button class="btn btn-md btn-primary ">
-        <Icon name="tabler:shopping-cart " />
+      <button class="btn btn-md btn-primary group">
+        <Icon
+          name="tabler:shopping-cart"
+          class=" group-hover:animate-bounce"
+          size="22"
+        />
         Add to cart
       </button>
     </div>
