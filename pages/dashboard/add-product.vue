@@ -54,11 +54,11 @@ const onSubmit = handleSubmit(async (formValues) => {
       formData.append("categoryIds", JSON.stringify(formValues.categoryIds));
     }
 
-    const uploadImages = await $csrfFetch("/api/product", {
+    const res = await $csrfFetch("/api/product", {
       method: "post",
       body: formData,
     });
-    console.log(uploadImages, "?????res");
+    console.log(res, "?????res");
   }
   catch (e) {
     const error = e as FetchError;
@@ -78,137 +78,140 @@ const onSubmit = handleSubmit(async (formValues) => {
     <p class="text-sm">
       Fill out this form to add new product in store.
     </p>
-    <form class="" @submit.prevent="onSubmit">
-      <AppInputField :error="errors.name" name="name" label="Name" />
-      <AppInputField
-        :error="errors.description"
-        type="textarea"
-        name="description"
-        label="Description"
-      />
-
-      <div class="grid grid-cols-2 gap-4">
+    <div class="form-wrapper">
+      <form class="" @submit.prevent="onSubmit">
+        <AppInputField :error="errors.name" name="name" label="Name" />
         <AppInputField
-          :error="errors.price"
-          type="number"
-          name="price"
-          label="Price (in RSD)"
+          :error="errors.description"
+          type="textarea"
+          name="description"
+          label="Description"
         />
-        <AppInputField
-          :error="errors.stock"
-          type="number"
-          name="stock"
-          label="Available quantity"
-        />
-      </div>
-      <div class="grid grid-cols-2 gap-4 my-3">
-        <div>
-          <Field v-slot="{ handleChange, handleBlur, errorMessage }" name="mainImage">
-            <label class="block mb-1 font-medium">Main Image <br><small>(PNG, JPG, WEBP, max 1MB)</small></label>
-            <input
-              type="file"
-              accept="image/png, image/jpeg, image/webp"
-              class="file-input file-input-bordered  w-full"
-              @change="(e) => { handleChange(e, true);selectImage(e) }"
-              @blur="handleBlur"
-            >
-            <p v-if="errorMessage" class="text-error mt-1 text-sm">
-              {{ errorMessage }}
-            </p>
-            <img
-              v-if="mainPreview"
-              class="aspect-square mt-2"
-              :src="mainPreview"
-              alt=""
-            >
-          </Field>
+
+        <div class="grid grid-cols-2 gap-4">
+          <AppInputField
+            :error="errors.price"
+            type="number"
+            name="price"
+            label="Price (in RSD)"
+          />
+          <AppInputField
+            :error="errors.stock"
+            type="number"
+            name="stock"
+            label="Available quantity"
+          />
         </div>
-        <div>
-          <Field v-slot="{ handleChange, handleBlur, errorMessage }" name="sideImage">
-            <label class="block mb-1 font-medium">Side Image <br><small>(PNG, JPG, WEBP, max 1MB)</small></label>          <input
-              type="file"
-              accept="image/png, image/jpeg, image/webp"
-              class="file-input file-input-bordered  w-full"
-              @change="(e) => { handleChange(e, true);selectImage(e, true) }"
-              @blur="handleBlur"
-            >
-            <p v-if="errorMessage" class="text-error mt-1 text-sm">
-              {{ errorMessage }}
-            </p>
-            {{ sidePreview }}
-            <img
-              v-if="sidePreview"
-              class="aspect-square mt-2"
-              :src="sidePreview"
-              alt=""
-            >
-          </Field>
-        </div>
-      </div>
-
-      <!-- Category Multiselect with Checkboxes -->
-      <Field
-        v-slot="{ field, errorMessage, handleChange }"
-        name="categoryIds"
-      >
-        <div class="form-control w-full">
-          <label class="label">
-            <span class="label-text">Categories *</span>
-          </label>
-          <div
-            class="rounded-lg py-3  grid grid-rows-3 grid-flow-col md:grid-cols-3 md:grid-flow-row overflow-auto gap-2"
-            :class="{ 'border-error': errorMessage }"
-          >
-            <div
-              v-for="category in categories"
-              :key="category.id"
-              class="form-control md:overflow-hidden"
-            >
-              <label class="label text-primary-content cursor-pointer justify-start gap-3">
-                <input
-                  type="checkbox"
-                  class="checkbox checkbox-sm "
-                  :value="category.id"
-                  :checked="field.value?.includes(category.id)"
-                  @change="(e: Event) => {
-                    const target = e.target as HTMLInputElement;
-                    const currentValues = field.value || [];
-                    let newValues;
-
-                    if (target.checked) {
-                      newValues = [...currentValues, category.id];
-                    }
-                    else {
-                      newValues = currentValues.filter((id: number) => id !== category.id);
-                    }
-
-                    handleChange(newValues);
-                  }"
-                >
-                <span class="label-text text-base-content">{{ category.name }}</span>
-              </label>
-            </div>
-            <div v-if="!categories?.length" class="text-gray-500 text-sm">
-              No categories available
-            </div>
+        <div class="grid grid-cols-2 gap-4 my-3">
+          <div>
+            <Field v-slot="{ handleChange, handleBlur, errorMessage }" name="mainImage">
+              <label class="block mb-1 font-medium">Main Image</label>
+              <input
+                type="file"
+                accept="image/png, image/jpeg, image/webp"
+                class="file-input file-input-bordered  w-full"
+                @change="(e) => { handleChange(e, true);selectImage(e) }"
+                @blur="handleBlur"
+              >
+              <p v-if="errorMessage" class="text-error mt-1 text-sm">
+                {{ errorMessage }}
+              </p>
+              <img
+                v-if="mainPreview"
+                class="aspect-square mt-2"
+                :src="mainPreview"
+                alt=""
+              >
+            </Field>
           </div>
-          <label v-if="errorMessage" class="label">
-            <span class="label-text-alt text-error">{{ errorMessage }}</span>
-          </label>
-        </div>
-      </Field>
+          <div>
+            <Field v-slot="{ handleChange, handleBlur, errorMessage }" name="sideImage">
+              <label class="block mb-1 font-medium">Side Image </label>
+              <input
+                type="file"
+                accept="image/png, image/jpeg, image/webp"
+                class="file-input file-input-bordered  w-full"
+                @change="(e) => { handleChange(e, true);selectImage(e, true) }"
+                @blur="handleBlur"
+              >
+              <p v-if="errorMessage" class="text-error mt-1 text-sm">
+                {{ errorMessage }}
+              </p>
 
-      <div class="form-actions w-fit flex gap-2 mt-4 ml-auto ">
-        <button class="btn btn-outline" type="button" @click="() => console.log(errors, meta)">
-          Cancel
-        </button>
-        <button class="btn btn-primary" type="submit">
-          Add Product
-        </button>
-      </div>
-      <p v-if="submitError" class="text-error-content bg-error p-2 mt-4">
-        {{ submitError }}
-      </p>
-    </form>
+              <img
+                v-if="sidePreview"
+                class="aspect-square mt-2"
+                :src="sidePreview"
+                alt=""
+              >
+            </Field>
+          </div>
+        </div>
+
+        <!-- Category Multiselect with Checkboxes -->
+        <Field
+          v-slot="{ field, errorMessage, handleChange }"
+          name="categoryIds"
+        >
+          <div class="form-control w-full">
+            <label class="label">
+              <span class="label-text">Categories *</span>
+            </label>
+            <div
+              class="rounded-lg py-3  grid grid-rows-3 grid-flow-col md:grid-cols-3 md:grid-flow-row overflow-auto gap-2"
+              :class="{ 'border-error': errorMessage }"
+            >
+              <div
+                v-for="category in categories"
+                :key="category.id"
+                class="form-control md:overflow-hidden"
+              >
+                <label class="label text-primary-content cursor-pointer justify-start gap-3">
+                  <input
+                    type="checkbox"
+                    class="checkbox checkbox-sm "
+                    :value="category.id"
+                    :checked="field.value?.includes(category.id)"
+                    @change="(e: Event) => {
+                      const target = e.target as HTMLInputElement;
+                      const currentValues = field.value || [];
+                      let newValues;
+
+                      if (target.checked) {
+                        newValues = [...currentValues, category.id];
+                      }
+                      else {
+                        newValues = currentValues.filter((id: number) => id !== category.id);
+                      }
+
+                      handleChange(newValues);
+                    }"
+                  >
+                  <span class="label-text text-base-content">{{ category.name }}</span>
+                </label>
+              </div>
+              <div v-if="!categories?.length" class="text-gray-500 text-sm">
+                No categories available
+              </div>
+            </div>
+            <label v-if="errorMessage" class="label">
+              <span class="label-text-alt text-error">{{ errorMessage }}</span>
+            </label>
+          </div>
+        </Field>
+
+        <div class="form-actions w-fit flex gap-2 mt-4 ml-auto ">
+          <button class="btn btn-outline" type="button" @click="() => console.log(errors, meta)">
+            Cancel
+          </button>
+          <button class="btn btn-primary" type="submit">
+            Add Product
+          </button>
+        </div>
+        <p v-if="submitError" class="text-error-content bg-error p-2 mt-4">
+          {{ submitError }}
+        </p>
+      </form>
+    </div>
   </div>
 </template>

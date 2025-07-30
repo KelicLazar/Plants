@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { getProducts } from "~/lib/db/queries/product";
+import type { Product } from "~/lib/db/types";
 
 defineProps<{
   product: Product;
@@ -10,52 +10,49 @@ function isNewProduct(createdAt: number, daysAgo: number): boolean {
   const pastDays = daysAgo * 24 * 60 * 60 * 1000;
   return now - createdAt <= pastDays;
 }
-
-type Product = Awaited<ReturnType<typeof getProducts>>[number];
 </script>
 
 <template>
-  <div class="card bg-base-100 w-full shadow-sm">
+  <div class="card group bg-base-100 w-full shadow-sm hover:bg-base-200/40 hover:-translate-y-1.5 duration-300 transition-all ">
     <div
       v-if="product.mainImage || product.sideImage"
-      class="group relative w-full aspect-square overflow-hidden"
+      class="relative w-full aspect-square overflow-hidden"
     >
-      <figure
-        v-if="product.mainImage"
-        class="w-full h-full absolute top-0 left-0 object-cover transition-opacity duration-300 opacity-100 group-hover:opacity-0"
-      >
-        <img
-          :src="product.mainImage"
-          :alt="product.name"
-        >
-      </figure>
-      <figure
-        v-if="product.sideImage"
-        class="w-full h-full absolute top-0 left-0 object-cover object-right transition-opacity duration-300 opacity-0 group-hover:opacity-100"
-      >
-        <img
-          :src="product.sideImage"
-          :alt="product.name"
-        >
-      </figure>
-    </div>
-
-    <div class="card-body">
-      <h2 class="card-title">
-        {{ product.name }}
-        <div v-if="isNewProduct(product.createdAt, 1)" class="badge badge-secondary">
-          NEW
-        </div>
-      </h2>
-      <p>{{ product.description }}</p>
-      <div class="card-actions">
-        <div v-for="category in product.productCategories" :key="`${category.productId}-${category.categoryId}`" class="badge badge-outline">
-          {{ category.category.name }}
-        </div>
+      <AppProductImage
+        :main-image="product.mainImage"
+        :side-image="product.sideImage"
+        :alt="product.name"
+      />
+      <div v-if="isNewProduct(product.createdAt, 1)" class="absolute z-2 top-4 right-4 badge badge-secondary">
+        NEW
       </div>
     </div>
-    <div class="card-footer p-5 flex justify-end">
-      <button class="btn btn-primary">
+
+    <div class="card-body pb-4 ">
+      <h2 class="card-title text-2xl mb-2">
+        <NuxtLink :to="`/products/${product.slug}`">
+          {{ product.name }}
+        </NuxtLink>
+      </h2>
+      <div class="product-categories flex gap-2 flex-wrap ">
+        <NuxtLink
+          v-for="category in product.productCategories"
+          :key="`${category.productId}-${category.categoryId}`"
+          :to="`/category/${category.category.slug}`"
+          class="badge badge-accent  badge-outline badge-soft flex whitespace-nowrap text-xs hover:bg-accent hover:text-accent-content transition-all"
+        >
+          {{ category.category.name }}
+        </NuxtLink>
+      </div>
+
+      <!-- <p>{{ product.description }}</p> -->
+    </div>
+    <div class="card-footer  p-5 pt-2 flex  justify-between  items-end">
+      <span class="product-price badge  badge-ghost badge-soft  text-lg h-full ">
+        {{ product.price }} RSD
+      </span>
+      <button class="btn btn-md btn-primary ">
+        <Icon name="tabler:shopping-cart " />
         Add to cart
       </button>
     </div>

@@ -4,3 +4,33 @@
 .section-container {
       @apply max-w-400 w-full m-auto;
 }
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Common for all */
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE 10+ */
+  overflow: auto; /* Or scroll, depending on your needs */
+}
+ .scrollbar-modern {
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #888 transparent; /* Firefox */
+  }
+
+  .scrollbar-modern::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar-modern::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+  }
+
+  .scrollbar-modern::-webkit-scrollbar-track {
+    background: transparent;
+  }

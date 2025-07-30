@@ -1,37 +1,37 @@
+<script lang="ts" setup>
+import { AppProductCard } from "#components";
+
+const productsStore = useProductsStore();
+</script>
+
 <template>
-  <div class="carousel carousel-end rounded-box">
-    <div class="carousel-item">
-      <img src="https://img.daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.webp" alt="Drink">
+  <section class="py-20">
+    <div class="section-heading w-full max-w-320 m-auto mb-8 text-5xl font-bold text-secondary">
+      <h1 class="">
+        Checkout our <br>Most Popular plants
+      </h1>
     </div>
-    <div class="carousel-item">
-      <img
-        src="https://img.daisyui.com/images/stock/photo-1565098772267-60af42b81ef2.webp"
-        alt="Drink"
+    <div class="carousel bg-transparent shadow-2xl flex  w-full  max-w-320 m-auto space-x-4">
+      <div
+        v-for="product in productsStore.products"
+        :key="product.id"
+        class="carousel-item w-2/7"
       >
+        <AppProductCard
+          :product="product"
+          class="carousel-item"
+        />
+      </div>
     </div>
-    <div class="carousel-item">
-      <img
-        src="https://img.daisyui.com/images/stock/photo-1572635148818-ef6fd45eb394.webp"
-        alt="Drink"
-      >
+    <div class="section-footer max-w-320 m-auto mt-8 flex justify-end">
+      <NuxtLink to="/products" class="btn btn-accent btn-lg  group">
+        View all plants
+        <Icon
+          name="tabler:arrow-up-right"
+          size="20"
+          class="group-hover:rotate-45 transition-all"
+        />
+      </NuxtLink>
     </div>
-    <div class="carousel-item">
-      <img
-        src="https://img.daisyui.com/images/stock/photo-1494253109108-2e30c049369b.webp"
-        alt="Drink"
-      >
-    </div>
-    <div class="carousel-item">
-      <img src="https://img.daisyui.com/images/stock/photo-1550258987-190a2d41a8ba.webp" alt="Drink">
-    </div>
-    <div class="carousel-item">
-      <img src="https://img.daisyui.com/images/stock/photo-1559181567-c3190ca9959b.webp" alt="Drink">
-    </div>
-    <div class="carousel-item">
-      <img
-        src="https://img.daisyui.com/images/stock/photo-1601004890684-d8cbf643f5f2.webp"
-        alt="Drink"
-      >
-    </div>
-  </div>
+  </section>
 </template>

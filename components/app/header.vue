@@ -46,6 +46,11 @@ onMounted(() => {
         <div class="hidden flex-none lg:block">
           <ul class="menu menu-horizontal">
             <li v-if="authStore.user">
+              <NuxtLink to="/products">
+                Products
+              </NuxtLink>
+            </li>
+            <li v-if="authStore.user">
               <NuxtLink to="/dashboard/add-category">
                 Add Category
               </NuxtLink>
@@ -75,7 +80,11 @@ onMounted(() => {
         </div>
         <UiThemeToggle />
         <div class="flex-none lg:hidden">
-          <label for="my-drawer-3" aria-label="open sidebar" class="btn btn-square btn-ghost">
+          <label
+            for="my-drawer-3"
+            aria-label="open sidebar"
+            class="btn btn-square btn-ghost"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -94,7 +103,11 @@ onMounted(() => {
       </div>
     </div>
     <div class="drawer-side">
-      <label for="my-drawer-3" aria-label="close sidebar" class="drawer-overlay" />
+      <label
+        for="my-drawer-3"
+        aria-label="close sidebar"
+        class="drawer-overlay"
+      />
       <ul class="menu bg-base-300 flex text-2xl top-20 z-50 w-full max-w-100  min-h-full w-80 p-4 pt-30">
         <!-- Sidebar content here -->
         <li class="hover:bg-primary hover:text-primary-content ">
