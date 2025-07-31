@@ -31,11 +31,27 @@ const themes = [
   "coffee",
   "winter",
 ];
+
+function setTheme(theme: string) {
+  if (!document.startViewTransition) {
+    // fallback if unsupported
+    useColorMode().preference = theme;
+    return;
+  }
+
+  document.startViewTransition(() => {
+    useColorMode().preference = theme;
+  });
+}
 </script>
 
 <template>
   <div class="dropdown">
-    <div tabindex="0" role="button" class="btn m-1">
+    <div
+      tabindex="0"
+      role="button"
+      class="btn m-1"
+    >
       Theme
       <svg
         width="12px"
@@ -61,7 +77,7 @@ const themes = [
           name="theme-dropdown"
           class="btn theme-controller btn-sm btn-block btn-ghost justify-start"
           :aria-label="theme.charAt(0).toUpperCase() + theme.slice(1)"
-          @change="$colorMode.preference = theme"
+          @change="setTheme(theme)"
         >
       </li>
     </ul>

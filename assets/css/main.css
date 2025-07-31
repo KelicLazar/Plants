@@ -39,10 +39,38 @@
 }
 
 
-
+html, body {
+  @apply transition-colors duration-300 ease-in-out;
+}
 :root,*[data-theme]{
  --radius-selector: 0rem;
   --radius-field: 0;
   --radius-box: 0;
 }
+
+::view-transition-new(root){
+  animation-timing-function: linear;
+  animation:circle-in 1s;
+}
+
+::view-transition-old(root){
+  animation-duration: 1s;
+  /* animation: none; */
+}
+
+@keyframes move-in {
+  from{ translate: 100% 0}
+  to{ translate:  0 0}
+}
+
+
+@keyframes move-out {
+  from{ translate: 0 0}
+  to{ translate: -100% 0}
+}
+@keyframes circle-in {
+  from {clip-path: circle(0% at 90% 10%); opacity:1}
+  to {clip-path: circle(130% at 90% 10%)}
+}
+
 @import "./base.css";

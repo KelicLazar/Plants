@@ -27,6 +27,7 @@
     "dotenv": "^17.2.0",
     "drizzle-orm": "^0.44.3",
     "drizzle-zod": "^0.8.2",
+    "gsap": "^3.13.0",
     "nanoid": "^5.1.5",
     "nuxt": "^3.17.3",
     "nuxt-csurf": "^1.6.5",
