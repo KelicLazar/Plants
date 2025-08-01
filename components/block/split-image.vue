@@ -46,20 +46,20 @@ onMounted(() => {
 </script>
 
 <template>
-  <section class="section-split-image py-40 m-auto">
+  <section class="section-split-image py-8 md:py-40 m-auto">
     <div
-      class="max-w-320 m-auto split-image-container flex gap-20 justify-between items-center"
-      :class="{ 'flex-row-reverse': isReverse }"
+      class="max-w-320 m-auto split-image-container flex flex-col p-3  lg:flex-row  gap-10 md:gap-20 justify-between lg:items-center"
+      :class="{ 'lg:flex-row-reverse': isReverse }"
     >
-      <div class="split-image-content max-w-160">
+      <div class="split-image-content w-full max-w-160">
         <span class="split-image-heading">{{ headline }}</span>
-        <h2 class="text-6xl mb-6" v-html="title" />
-        <p class="text-lg">
+        <h2 class="text-3xl md:text-5xl xl:text-6xl mb-6 max-w-200" v-html="title" />
+        <p class="text-md md:text-lg">
           {{ description }}
         </p>
         <slot />
       </div>
-      <div class="split-image-image-wrapper relative max-w-120 w-full aspect-square">
+      <div class="split-image-image-wrapper  relative max-w-120 w-full aspect-square">
         <img
           ref="leftImgRef"
           :src="imageUrl"

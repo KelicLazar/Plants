@@ -52,7 +52,7 @@
       title="Thriving in the Spotlight"
       description="Sun lovers flourish in warmth and brightness, adding vibrancy to every space they touch. If your home is full of light, these plants are your ideal match. From flowering species to dramatic foliage, our sun-friendly collection offers variety and charm. Give them the spotlight and watch them thrive all season long with minimal effort."
     >
-      <NuxtLink class="btn group btn-primary flex w-fit  mt-4" to="/category/sun-lovers">
+      <NuxtLink class="btn group btn-primary  mt-4" to="/category/sun-lovers">
         Browse Sun Lovers
         <Icon
           name="tabler:sun"

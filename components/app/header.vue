@@ -1,13 +1,22 @@
 <script lang="ts" setup>
-const header = ref();
+import { computed, onMounted, ref } from "vue";
+
+const header = ref<HTMLElement | null>(null);
 const authStore = useAuthStore();
+
 onMounted(() => {
   let prevPosY = window.scrollY;
-  if (window.scrollY > 10) {
+
+  if (window.scrollY > 10 && header.value) {
     header.value.classList.add("not-top");
   }
-  addEventListener("scroll", () => {
+
+  const onScroll = () => {
     const posY = window.scrollY;
+
+    if (!header.value)
+      return;
+
     if (posY < 10) {
       header.value.classList.remove("not-top");
     }
@@ -23,7 +32,28 @@ onMounted(() => {
     }
 
     prevPosY = posY;
-  });
+  };
+
+  window.addEventListener("scroll", onScroll);
+
+  // Optional: cleanup if component unmounts
+  // onUnmounted(() => window.removeEventListener('scroll', onScroll));
+});
+
+const menuLinks = computed(() => {
+  const baseLinks = [
+    { label: "Products", to: "/products", authRequired: true },
+    { label: "Add Category", to: "/dashboard/add-category", authRequired: true },
+    { label: "Add Product", to: "/dashboard/add-product", authRequired: true },
+    { label: "Login", to: "/login", authRequired: false },
+  ];
+
+  if (authStore.user) {
+    return baseLinks.filter(link => link.authRequired);
+  }
+  else {
+    return baseLinks.filter(link => !link.authRequired);
+  }
 });
 </script>
 
@@ -34,51 +64,41 @@ onMounted(() => {
       type="checkbox"
       class="drawer-toggle"
     >
-    <div ref="header" class="my-header drawer-content z-50 bg-accent text-accent-content min-h-16 lg:py-2 fixed w-full  flex flex-col">
+    <div
+      ref="header"
+      class="my-header drawer-content z-50 bg-accent text-accent-content min-h-16 lg:py-2 fixed w-full flex flex-col"
+    >
       <!-- Navbar -->
-      <div class="navbar  m-auto px-3 lg:px-0 mt-0 max-w-400">
-        <div class=" flex-1 py-2">
-          <NuxtLink to="/" class="p-2 text-xl flex gap-2">
+      <div class="navbar m-auto px-3 lg:px-0 mt-0 max-w-400">
+        <div class="flex-1 py-2">
+          <NuxtLink to="/" class="p-2 md:text-xl flex gap-2">
             <Icon name="tabler:plant" size="24" />
             Small Plants Shop
           </NuxtLink>
         </div>
+
+        <!-- Desktop menu -->
         <div class="hidden flex-none lg:block">
           <ul class="menu menu-horizontal">
-            <li v-if="authStore.user">
-              <NuxtLink to="/products">
-                Products
+            <li v-for="link in menuLinks" :key="link.to">
+              <NuxtLink :to="link.to">
+                {{ link.label }}
               </NuxtLink>
             </li>
             <li v-if="authStore.user">
-              <NuxtLink to="/dashboard/add-category">
-                Add Category
-              </NuxtLink>
-            </li>
-            <li v-if="authStore.user">
-              <NuxtLink to="/dashboard/add-product">
-                Add Product
-              </NuxtLink>
-            </li>
-            <li v-if="authStore?.user">
-              <span>
-                {{ authStore.user?.email }}
-              </span>
+              <span>{{ authStore.user.email }}</span>
             </li>
             <li v-if="authStore.user">
               <button @click="authStore.signOut">
                 Logout
               </button>
             </li>
-
-            <li v-if="!authStore.user">
-              <NuxtLink to="/login">
-                Login
-              </NuxtLink>
-            </li>
           </ul>
         </div>
+
         <UiThemeToggle />
+
+        <!-- Mobile menu button -->
         <div class="flex-none lg:hidden">
           <label
             for="my-drawer-3"
@@ -102,19 +122,31 @@ onMounted(() => {
         </div>
       </div>
     </div>
+
+    <!-- Mobile drawer menu -->
     <div class="drawer-side">
       <label
         for="my-drawer-3"
         aria-label="close sidebar"
         class="drawer-overlay"
       />
-      <ul class="menu bg-base-300 flex text-2xl top-20 z-50 w-full max-w-100  min-h-full w-80 p-4 pt-30">
-        <!-- Sidebar content here -->
-        <li class="hover:bg-primary hover:text-primary-content ">
-          <a class="py-0">Sidebar Item 1</a>
+      <ul class="menu bg-base-300 flex flex-col text-2xl top-20 z-50 w-80 p-4 pt-30 min-h-full">
+        <li
+          v-for="link in menuLinks"
+          :key="link.to"
+          class="hover:bg-primary hover:text-primary-content"
+        >
+          <NuxtLink :to="link.to">
+            {{ link.label }}
+          </NuxtLink>
         </li>
-        <li class="hover:bg-primary hover:text-primary-content ">
-          <a class="py-0">Sidebar Item 2</a>
+        <li v-if="authStore.user" class="px-2 pt-6">
+          <span>{{ authStore.user.email }}</span>
+        </li>
+        <li v-if="authStore.user" class="px-2">
+          <button @click="authStore.signOut">
+            Logout
+          </button>
         </li>
       </ul>
     </div>

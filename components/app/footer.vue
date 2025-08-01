@@ -1,7 +1,7 @@
 <template>
   <div class="bg-base-content text-base-200">
-    <footer class="section-container  footer sm:footer-horizontal   py-10">
-      <aside>
+    <footer class="section-container  footer sm:footer-horizontal grid grid-cols-3  px-3 py-10">
+      <aside class="col-span-3">
         <svg
           width="50"
           height="50"
