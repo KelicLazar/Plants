@@ -6,8 +6,7 @@
     <BlockHero />
     <BlockSplitImage
       title="Low Maintenance,<br>High Charm"
-      image-url="
-      cactus-2.png"
+      image-url="/cactus-2.png"
       :is-reverse="false"
       description="Spiky but full of charm, cacti bring bold character with minimal care. They thrive on sunlight and dry air, making them perfect for forgetful plant owners. Our collection includes a wide variety of shapes and sizes to match any style. Add texture and drama to your home with these striking, sculptural plants that are always on trend."
     >

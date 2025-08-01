@@ -13,7 +13,7 @@ function isNewProduct(createdAt: number, daysAgo: number): boolean {
 </script>
 
 <template>
-  <div class="card group bg-base-100 w-full shadow-sm hover:bg-base-200/40 hover:-translate-y-1.5 duration-300 transition-all ">
+  <div class="card group bg-base-150 w-full shadow-sm hover:bg-base-200/40 hover:-translate-y-1.5 duration-300 transition-all ">
     <NuxtLink
       v-if="product.mainImage || product.sideImage"
       :to="`/products/${product.slug}`"

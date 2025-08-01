@@ -15,10 +15,11 @@ export default defineEventHandler(async (event) => {
     const page = Number.parseInt(query.page as string) || 1;
     const orderBy: SortableField = (query.orderBy as SortableField) || "created_at";
     const categorySlug = query.category as string;
+    const sort = (query.sort) as string;
 
     // const sort = query.sort || "desc";
 
-    const result = await getProducts(page, limit, orderBy, "asc", categorySlug);
+    const result = await getProducts(page, limit, orderBy, sort, categorySlug);
     console.log("Result:", limit, page, result);
 
     return result;

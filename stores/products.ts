@@ -85,5 +85,6 @@ export const useProductsStore = defineStore("useProductsStore", () => {
     currentProductRefresh,
     currentProductRequestUrl,
     resetFilters,
+    sort,
   };
 });

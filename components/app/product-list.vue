@@ -10,10 +10,17 @@ onMounted(() => {
     productsStore.currentCategory = `${route.params.categoryslug}`;
   }
 });
+
+function handleSort(orderBy: string, sort: string = "desc") {
+  if (orderBy)
+    productsStore.orderBy = orderBy;
+
+  productsStore.sort = sort;
+}
 </script>
 
 <template>
-  <div class="section-container">
+  <div class="section-container pb-20">
     {{ test }}
     <div class="product-list-actions flex flex-row  py-4 mb-2 mt-4 gap-2 items-center justify-end">
       <label class="input border-accent/30 text-accent bg-accent/10">
@@ -23,9 +30,10 @@ onMounted(() => {
           size="20"
         />
         <input
+          disabled
           type="search "
-          class="font-bold"
-          required
+          class="font-bold w-full"
+
           placeholder="Search Product"
         >
       </label>
@@ -33,25 +41,42 @@ onMounted(() => {
         <div
           tabindex="0"
           role="button"
-          class="btn m-0 btn-accent   border-accent/30"
+          class="btn m-0 btn-accent border-accent/30"
         >
           <Icon name="tabler:arrows-sort" size="20" />
           Sort
         </div>
-        <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-1 min-w-40 p-2 shadow-sm">
+        <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-1 min-w-50 p-2 shadow-sm">
           <li>
-            <button class="" @click="productsStore.orderBy = 'price'">
-              Price
+            <button class="" @click="handleSort('price', 'asc')">
+              Price (Lowest First)
             </button>
           </li>
           <li>
-            <button class="" @click="productsStore.orderBy = 'created_at'">
+            <button class="" @click="handleSort('price', 'desc')">
+              Price (Highest First)
+            </button>
+          </li>
+          <li>
+            <button class="" @click="handleSort('created_at', 'desc')">
               Newest
             </button>
           </li>
+
           <li>
-            <button class="" @click="productsStore.orderBy = 'name'">
-              Name
+            <button class="" @click="handleSort('created_at', 'asc')">
+              Oldest
+            </button>
+          </li>
+          <li>
+            <button class="" @click="handleSort('name', 'asc')">
+              Name (A-Z)
+            </button>
+          </li>
+
+          <li>
+            <button class="" @click="handleSort('created_at', 'desc')">
+              Name (Z-A)
             </button>
           </li>
         </ul>

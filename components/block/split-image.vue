@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
+import { onMounted, ref } from "vue";
 
 defineProps<{
   title: string;
@@ -12,39 +13,35 @@ defineProps<{
 
 gsap.registerPlugin(ScrollTrigger);
 
-const imageRightRef = ref<HTMLElement | null>(null);
-const imageLeftRef = ref<HTMLElement | null>(null);
+// these refs are now local per component instance
+const leftImgRef = ref<HTMLElement | null>(null);
+const rightImgRef = ref<HTMLElement | null>(null);
 
 onMounted(() => {
-  if (imageRightRef.value) {
-    gsap.to(imageRightRef.value, {
-      y: -16, // moves 100px down (adjust for effect)
-      //   clipPath: "polygon(56% 10%, 100% 10%, 100% 100%, 56% 100%)",
+  if (leftImgRef.value) {
+    gsap.to(leftImgRef.value, {
+      y: 16,
       ease: "none",
-      delay: 3,
-      stagger: 2,
+      delay: 0, // remove delay to avoid confusion
       scrollTrigger: {
-        trigger: imageRightRef.value,
-        start: "middle 80%", // when element enters viewport
-        end: "middle 20%", // when element leaves viewport
+        trigger: leftImgRef.value,
+        start: "top 80%",
+        end: "top 20%",
         scrub: true,
-
-        // ties animation to scroll
       },
     });
   }
-  if (imageLeftRef.value) {
-    gsap.to(imageLeftRef.value, {
-      y: 16, // moves 100px down (adjust for effect)
-      //   clipPath: "polygon(0 0%, 54% 0%, 54% 100%, 0 100%)",
+
+  if (rightImgRef.value) {
+    gsap.to(rightImgRef.value, {
+      y: -16,
       ease: "none",
-      delay: 3,
+      delay: 0,
       scrollTrigger: {
-        trigger: imageLeftRef.value,
-        start: "middle 80%", // when element enters viewport
-        end: "middle 20%", // when element leaves viewport
+        trigger: rightImgRef.value,
+        start: "top 80%",
+        end: "top 20%",
         scrub: true,
-        // ties animation to scroll
       },
     });
   }
@@ -52,21 +49,13 @@ onMounted(() => {
 </script>
 
 <template>
-  <section
-    class="
-   section-split-image
-   py-40
-   m-auto
-   "
-  >
+  <section class="section-split-image py-40 m-auto">
     <div
-      class="  max-w-320 m-auto split-image-container flex gap-20 justify-between  items-center"
+      class="max-w-320 m-auto split-image-container flex gap-20 justify-between items-center"
       :class="{ 'flex-row-reverse': isReverse }"
     >
       <div class="split-image-content max-w-160">
-        <span class="split-image-heading">
-          {{ headline }}
-        </span>
+        <span class="split-image-heading">{{ headline }}</span>
         <h2 class="text-6xl mb-6" v-html="title" />
         <p class="text-lg">
           {{ description }}
@@ -75,16 +64,16 @@ onMounted(() => {
       </div>
       <div class="split-image-image-wrapper relative max-w-120 w-full aspect-square">
         <img
-          ref="imageLeftRef"
+          ref="leftImgRef"
           :src="imageUrl"
           :alt="title"
-          class="split-image--left absolute top-0  -translate-y-4 w-full h-full object-cover"
+          class="split-image--left absolute top-0 -translate-y-4 w-full h-full object-cover"
         >
         <img
-          ref="imageRightRef"
+          ref="rightImgRef"
           :src="imageUrl"
           :alt="title"
-          class="split-image--right top-0 translate-y-4 absolute w-full h-full object-cover"
+          class="split-image--right absolute top-0 translate-y-4 w-full h-full object-cover"
         >
       </div>
     </div>
