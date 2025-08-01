@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
+import { gsap } from "gsap";
 import { onMounted, ref } from "vue";
 
 defineProps<{
@@ -10,8 +9,6 @@ defineProps<{
   imageUrl: string;
   isReverse?: boolean;
 }>();
-
-gsap.registerPlugin(ScrollTrigger);
 
 // these refs are now local per component instance
 const leftImgRef = ref<HTMLElement | null>(null);
