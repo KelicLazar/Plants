@@ -5,6 +5,23 @@ defineProps<{
   product: Product;
 }>();
 
+const { $csrfFetch } = useNuxtApp();
+
+const cartStore = useCartStore();
+
+async function addToCart(productId: number) {
+  // console.log(cartStore.cart);
+  // const reqBody = {
+  //   productId,
+
+  // };
+
+  // const res = await $csrfFetch("/api/cart", {
+  //   method: "post",
+  //   body: reqBody,
+  // });
+  // console.log(res);
+}
 function isNewProduct(createdAt: number, daysAgo: number): boolean {
   const now = Date.now();
   const pastDays = daysAgo * 24 * 60 * 60 * 1000;
@@ -49,10 +66,10 @@ function isNewProduct(createdAt: number, daysAgo: number): boolean {
       <!-- <p>{{ product.description }}</p> -->
     </div>
     <div class="card-footer  p-3 pt-2 flex  justify-between  items-end">
-      <span class="product-price badge  badge-ghost badge-soft  text-lg h-full ">
+      <span class="product-price badge text-sm sm:text-lg badge-ghost badge-soft  h-full ">
         {{ product.price }} RSD
       </span>
-      <button class="btn btn-md btn-primary group">
+      <button class="btn btn-sm sm:btn-md btn-primary  group" @click="addToCart(product.id)">
         <Icon
           name="tabler:shopping-cart"
           class=" group-hover:animate-bounce"

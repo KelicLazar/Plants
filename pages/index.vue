@@ -20,6 +20,8 @@
       </NuxtLink>
     </BlockSplitImage>
     <BlockExploreCategory
+
+      :is-reverse="true"
       image="/desk.png"
       title="Green Up Your Workspace"
       description="Your desk deserves a touch of green. Our curated desk plant selection brings calm and focus to your workspace without taking up space. These plants are easy to care for and ideal for home offices or study nooks. Add a fresh accent to your routine and enjoy a little piece of nature while you work or create from your favorite spot."
@@ -36,17 +38,6 @@
 
     <BlockCarousel />
 
-    <BlockSplitImage
-      :is-reverse="true"
-      title="Soft Shapes, Strong Style"
-      image-url="/succulents.jpg"
-      description="Succulents are soft, compact, and endlessly captivating. Their subtle hues and geometric forms make them ideal accents for shelves, windowsills, and gift boxes. Whether you prefer trailing varieties or tight rosettes, you'll find something to love. These resilient plants retain water and beauty effortlessly, brightening any corner without demanding much attention."
-    >
-      <NuxtLink class="btn btn-secondary mt-4" to="/category/cactus">
-        Shop Succulents
-        <Icon name="tabler:cactus" size="20" />
-      </NuxtLink>
-    </BlockSplitImage>
     <BlockExploreCategory
       image="/sun.png"
       title="Thriving in the Spotlight"
@@ -61,6 +52,17 @@
         />
       </NuxtLink>
     </BlockExploreCategory>
+    <BlockSplitImage
+      :is-reverse="true"
+      title="Soft Shapes, Strong Style"
+      image-url="/succulents.jpg"
+      description="Succulents are soft, compact, and endlessly captivating. Their subtle hues and geometric forms make them ideal accents for shelves, windowsills, and gift boxes. Whether you prefer trailing varieties or tight rosettes, you'll find something to love. These resilient plants retain water and beauty effortlessly, brightening any corner without demanding much attention."
+    >
+      <NuxtLink class="btn btn-secondary mt-4" to="/category/cactus">
+        Shop Succulents
+        <Icon name="tabler:cactus" size="20" />
+      </NuxtLink>
+    </BlockSplitImage>
   </div>
 </template>
 Photo by Quang Nguyen Vinh: https://www.pexels.com/photo/assorted-color-flowers-2132227/

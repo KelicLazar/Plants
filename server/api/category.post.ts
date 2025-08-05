@@ -25,7 +25,6 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  console.log(result);
   const slug = await findUniqueCategorySlug(slugify(result.data.name));
 
   try {
@@ -33,7 +32,6 @@ export default defineEventHandler(async (event) => {
   }
   catch (e) {
     const error = e as DrizzleError;
-    console.log("insert Error", error.message);
     throw error;
   }
 });

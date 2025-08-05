@@ -68,9 +68,6 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  console.log("Main image:", mainImageFile);
-  console.log("Side image:", sideImageFile);
-
   // Upload images
   let mainImageUrl, sideImageUrl;
 
@@ -91,7 +88,6 @@ export default defineEventHandler(async (event) => {
   const slug = await findUniqueProductSlug(slugify(name));
 
   const productData = { mainImage: mainImageUrl, sideImage: sideImageUrl, name, description, price: +price, stock: +stock };
-  console.log(mainImageUrl, sideImageUrl);
 
   const validateData = InsertProduct.parse(productData);
 
@@ -124,7 +120,6 @@ async function uploadImage(fileItem: any) {
       throw new Error(data.error.message);
     }
 
-    console.log("Upload successful:", data.secure_url);
     return data.secure_url; // Return just the URL
   }
   catch (error) {

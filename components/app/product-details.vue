@@ -24,10 +24,10 @@ function setBigImage(imageUrl: string) {
 </script>
 
 <template>
-  <section class="product-details-section pt-12 section-container">
+  <section class="product-details-section px-3 pt-4 pb-12  section-container m-0 flex ">
     <!-- Loading State -->
 
-    <div v-if="status === 'pending' || status === 'idle'" class="flex justify-center items-center min-h-96">
+    <div v-if="status === 'pending' || status === 'idle'" class="flex justify-center w-full  items-center min-h-96">
       <AppProductDetailsSkeleton />
     </div>
 
@@ -50,12 +50,12 @@ function setBigImage(imageUrl: string) {
     </div>
 
     <!-- Success State with Product Data -->
-    <div v-else-if="product" class="product-details-card max-w-6xl mx-auto">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div v-else-if="product" class="product-details-card  lg:mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-2 max-w-140 lg:max-w-280 gap-8">
         <!-- Image Section -->
-        <div class="product-images flex flex-row-reverse gap-4">
+        <div class="product-images flex flex-col  md:flex-row-reverse md:justify-end md:gap-4">
           <!-- Main Display Image -->
-          <div class="main-image mb-4">
+          <div class="main-image  mb-4">
             <div class="w-full aspect-square overflow-hidden  bg-base-200">
               <img
                 v-if="bigImage"
@@ -70,7 +70,7 @@ function setBigImage(imageUrl: string) {
           </div>
 
           <!-- Thumbnail Images -->
-          <div class="thumbnails flex flex-col  gap-2">
+          <div class="thumbnails flex md:flex-col  gap-2">
             <button
               v-if="product.mainImage"
               class="w-20 h-20 overflow-hidden border-2 hover:border-primary transition-colors"

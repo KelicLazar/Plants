@@ -14,10 +14,14 @@
     <div class="hero-overlay" />
     <div class="hero-content text-neutral-content md:text-center ">
       <div class="max-w-280 ">
-        <h1 class="mb-8 text-5xl lg:text-8xl font-bold">
-          <small class="">Little</small> <span class="text-green-600">Green</span> <span class="relative">
+        <h1 class="mb-8 text-5xl md:text-7xl xl:text-8xl font-bold">
+          <small class="">Little</small> <span class="relative whitespace-nowrap">G<span class="hidden md:inline">r</span><Icon
+            class="text-green-600 md:!hidden md:scale-200 md:px-7 md:my-2"
+            name="tabler:plant"
+            size="30"
+          />een </span> <span class="relative">
             <Icon
-              class="absolute -right-20 -top-21 z-0 rotate-20 scale-30 md:scale-100 text-primary"
+              class="!hidden md:!flex absolute  md:-right-20 md:-top-21 z-0 rotate-20 scale-35 md:scale-55 xl:scale-100 text-primary"
               name="tabler:plant"
               size="218"
             />

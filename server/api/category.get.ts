@@ -9,6 +9,5 @@ export default defineEventHandler(async (event) => {
   }
   const result = await getCategories();
 
-  console.log(result);
   return result;
 });

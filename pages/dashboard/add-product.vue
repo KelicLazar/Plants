@@ -7,7 +7,7 @@ import { ProductFormSchema } from "~/lib/db/schema";
 
 const { $csrfFetch } = useNuxtApp();
 const categoryStore = useCategoryStore();
-
+const productStore = useProductsStore();
 const submitError = ref("");
 const mainPreview = ref("");
 const sidePreview = ref("");
@@ -31,8 +31,8 @@ function selectImage(event: Event, isSide: boolean = false) {
   }
 }
 const onSubmit = handleSubmit(async (formValues) => {
-  console.log("submiting");
-  console.log(formValues);
+  // console.log("submiting");
+  // console.log(formValues);
   submitError.value = "";
   try {
     // Create FormData instead of sending JSON
@@ -58,6 +58,10 @@ const onSubmit = handleSubmit(async (formValues) => {
       method: "post",
       body: formData,
     });
+    if (res.id) {
+      productStore.refreshProducts();
+      navigateTo("/products");
+    }
     console.log(res, "?????res");
   }
   catch (e) {
@@ -80,7 +84,11 @@ const onSubmit = handleSubmit(async (formValues) => {
     </p>
     <div class="form-wrapper">
       <form class="" @submit.prevent="onSubmit">
-        <AppInputField :error="errors.name" name="name" label="Name" />
+        <AppInputField
+          :error="errors.name"
+          name="name"
+          label="Name"
+        />
         <AppInputField
           :error="errors.description"
           type="textarea"
@@ -201,7 +209,11 @@ const onSubmit = handleSubmit(async (formValues) => {
         </Field>
 
         <div class="form-actions w-fit flex gap-2 mt-4 ml-auto ">
-          <button class="btn btn-outline" type="button" @click="() => console.log(errors, meta)">
+          <button
+            class="btn btn-outline"
+            type="button"
+            @click="() => console.log(errors, meta)"
+          >
             Cancel
           </button>
           <button class="btn btn-primary" type="submit">

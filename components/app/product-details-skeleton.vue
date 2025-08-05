@@ -1,9 +1,9 @@
 <template>
   <section class="product-details-section section-container">
-    <div class="product-details-card max-w-6xl mx-auto">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div class="product-details-card max-w-280 mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-2 max-w-140 lg:max-w-280 gap-8">
         <!-- Image Section Skeleton -->
-        <div class="product-images flex flex-row-reverse gap-4">
+        <div class="product-images flex flex-col  md:flex-row-reverse md:justify-end md:gap-4">
           <!-- Main Display Image Skeleton -->
           <div class="main-image mb-4 flex-1">
             <div class="w-full aspect-square overflow-hidden bg-base-200">
@@ -12,7 +12,7 @@
           </div>
 
           <!-- Thumbnail Images Skeleton -->
-          <div class="thumbnails flex flex-col gap-2">
+          <div class="thumbnails flex flex-row md:flex-col gap-2">
             <div class="w-20 h-20 overflow-hidden ">
               <div class="w-full h-full skeleton" />
             </div>
@@ -56,7 +56,7 @@
           <!-- Action Buttons Skeleton -->
           <div class="actions flex gap-4 items-center">
             <!-- Price Skeleton -->
-            <div class="price mb-6">
+            <div class="price">
               <div class="skeleton h-12 w-24" />
             </div>
             <!-- Button Skeleton -->

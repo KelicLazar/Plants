@@ -46,7 +46,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section class="section-split-image py-8 md:py-40 m-auto">
+  <section class="section-split-image text-base-100 bg-base-content py-8 md:py-40 m-auto">
     <div
       class="max-w-320 m-auto split-image-container flex flex-col p-3  lg:flex-row  gap-10 md:gap-20 justify-between lg:items-center"
       :class="{ 'lg:flex-row-reverse': isReverse }"

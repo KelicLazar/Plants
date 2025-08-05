@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 const productsStore = useProductsStore();
 const route = useRoute();
-const test = ref("");
 onMounted(() => {
   // console.log("On mounted runned,", route.params?.categoryslug[0]);
 
@@ -20,8 +19,7 @@ function handleSort(orderBy: string, sort: string = "desc") {
 </script>
 
 <template>
-  <div class="section-container pb-20">
-    {{ test }}
+  <div class="section-container pb-20 ">
     <div class="product-list-actions flex flex-row  py-4 mb-2 mt-4 gap-2 items-center justify-end">
       <label class="input border-accent/30 text-accent bg-accent/10">
         <Icon
@@ -83,7 +81,7 @@ function handleSort(orderBy: string, sort: string = "desc") {
       </div>
     </div>
 
-    <div class="product-list section-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+    <div class="product-list section-container grid grid-cols-1 sm:grid-cols-2 gap-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:gap-4">
       <template v-if="productsStore.productsStatus === 'pending' || productsStore.productsStatus === 'idle'">
         <AppProductCardSkeleton v-for="n in 12" :key="n" />
       </template>

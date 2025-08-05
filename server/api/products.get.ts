@@ -8,8 +8,6 @@ import { wait } from "~/utils/wait";
 export default defineEventHandler(async (event) => {
   await wait(0.5);
   try {
-    console.log("Reached handler");
-
     const query = getQuery(event);
     const limit = Number.parseInt(query.limit as string) || 12;
     const page = Number.parseInt(query.page as string) || 1;
@@ -20,7 +18,6 @@ export default defineEventHandler(async (event) => {
     // const sort = query.sort || "desc";
 
     const result = await getProducts(page, limit, orderBy, sort, categorySlug);
-    console.log("Result:", limit, page, result);
 
     return result;
   }

@@ -19,19 +19,14 @@ export const useProductsStore = defineStore("useProductsStore", () => {
     currentCategory.value = null;
   };
 
-  // Watch for route changes and reset when navigating to different pages
   watch(() => route.path, (newPath, oldPath) => {
-    // Only reset if moving between different page types
     if (newPath !== oldPath) {
-      // Reset when moving away from category pages
       if (oldPath?.includes("/category/") && !newPath?.includes("/category/")) {
         resetFilters();
       }
-      // Reset when moving to different category
       else if (newPath?.includes("/category/") && oldPath?.includes("/category/")) {
-        currentPage.value = 1; // Reset page but keep other filters
+        currentPage.value = 1;
       }
-      // Reset when moving to products page from elsewhere
       else if (newPath?.includes("/products") && !oldPath?.includes("/products")) {
         resetFilters();
       }

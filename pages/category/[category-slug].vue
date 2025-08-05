@@ -11,7 +11,7 @@ const currCategory = computed(() => {
 </script>
 
 <template>
-  <section class="section-container pt-40">
+  <section class="section-container pt-40 px-3">
     <div class="category-page">
       <template v-if="productsStore.products && currCategory">
         <span class="badge badge-secondary badge-xl">
@@ -21,7 +21,7 @@ const currCategory = computed(() => {
       <div v-else class="badge badge-xl skeleton w-24 h-6 rounded" />
 
       <template v-if="productsStore.products && currCategory">
-        <h1 class="text-2xl mt-8 max-w-220">
+        <h1 class="md:text-2xl mt-8 max-w-220">
           {{ currCategory.description }}
         </h1>
       </template>

@@ -44,7 +44,11 @@ const onSubmit = handleSubmit(async (values) => {
     </p>
 
     <form class="max-w-120 m-auto" @submit.prevent="onSubmit">
-      <AppInputField :error="errors.name" name="name" label="Name" />
+      <AppInputField
+        :error="errors.name"
+        name="name"
+        label="Name"
+      />
       <AppInputField
         :error="errors.description"
         name="description"
@@ -78,7 +82,11 @@ const onSubmit = handleSubmit(async (values) => {
         </p>
       </Field>
       <div class="flex justify-end gap-2 mt-4">
-        <button class="btn btn-outline" type="button" @click="router.back">
+        <button
+          class="btn btn-outline"
+          type="button"
+          @click="router.back"
+        >
           Cancel
         </button>
         <button type="submit" class="btn btn-primary">

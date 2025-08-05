@@ -69,9 +69,9 @@ const menuLinks = computed(() => {
       class="my-header drawer-content z-50 bg-accent text-accent-content min-h-16 lg:py-2 fixed w-full flex flex-col"
     >
       <!-- Navbar -->
-      <div class="navbar m-auto px-3 lg:px-0 mt-0 max-w-400">
+      <div class="navbar m-auto px-3 mt-0 max-w-400">
         <div class="flex-1 py-2">
-          <NuxtLink to="/" class="p-2 md:text-xl flex gap-2">
+          <NuxtLink to="/" class="p-2 md:text-xl gap-2">
             <Icon name="tabler:plant" size="24" />
             Small Plants Shop
           </NuxtLink>
