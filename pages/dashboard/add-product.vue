@@ -62,7 +62,7 @@ const onSubmit = handleSubmit(async (formValues) => {
       productStore.refreshProducts();
       navigateTo("/products");
     }
-    console.log(res, "?????res");
+    // console.log(res, "?????res");
   }
   catch (e) {
     const error = e as FetchError;

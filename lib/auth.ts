@@ -1,8 +1,9 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { admin, createAuthMiddleware } from "better-auth/plugins";
+import { admin, anonymous, createAuthMiddleware } from "better-auth/plugins";
 
 import db from "./db";
+import { transferAnonymousCart } from "./db/queries/cart";
 import * as schema from "./db/schema";
 import env from "./env";
 
@@ -26,6 +27,11 @@ export const auth = betterAuth({
   }),
   plugins: [
     admin(),
+    anonymous({
+      onLinkAccount: async ({ anonymousUser, newUser }) => {
+        await transferAnonymousCart(+anonymousUser.user.id, +newUser.user.id);
+      },
+    }),
   ],
   advanced: {
     generateId: false,

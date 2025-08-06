@@ -12,9 +12,11 @@ export default defineEventHandler(async (event) => {
   }
   const data = await readBody(event);
   console.log("BLABLABLA", data, "BLAAAAA");
-  return "Blbalbal";
-  //   const cart = await addToCart();
+  // return "Blbalbal";
+  console.log(data.productId, 1, event.context.user.id);
 
-//   console.log(cart);
-//   return cart;
+  const cart = await addToCart(data.productId, 1, event.context.user.id);
+
+  console.log(cart);
+  return cart;
 });

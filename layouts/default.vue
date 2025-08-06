@@ -1,6 +1,13 @@
 <script lang="ts" setup>
 const authStore = useAuthStore();
-await authStore.init();
+
+// Initialize session first
+const sessionData = await authStore.init();
+
+// If no user exists after init, sign in anonymously
+if (!sessionData?.data?.value?.user) {
+  await authStore.signInAnonymously();
+}
 </script>
 
 <template>

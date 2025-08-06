@@ -8,19 +8,20 @@ defineProps<{
 const { $csrfFetch } = useNuxtApp();
 
 const cartStore = useCartStore();
-
+// const authStore = useAuthStore();
 async function addToCart(productId: number) {
-  // console.log(cartStore.cart);
-  // const reqBody = {
-  //   productId,
+  const reqBody = {
+    productId,
 
-  // };
+  };
 
-  // const res = await $csrfFetch("/api/cart", {
-  //   method: "post",
-  //   body: reqBody,
-  // });
-  // console.log(res);
+  const res = await $csrfFetch("/api/cart", {
+    method: "post",
+    body: reqBody,
+  });
+  if (res) {
+    cartStore.refreshCart();
+  }
 }
 function isNewProduct(createdAt: number, daysAgo: number): boolean {
   const now = Date.now();

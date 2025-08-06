@@ -75,6 +75,9 @@ const menuLinks = computed(() => {
             <Icon name="tabler:plant" size="24" />
             Small Plants Shop
           </NuxtLink>
+          <button class="btn btn-secondary" @click="authStore.signInAnonymously">
+            Anon
+          </button>
         </div>
 
         <!-- Desktop menu -->
@@ -86,7 +89,7 @@ const menuLinks = computed(() => {
               </NuxtLink>
             </li>
             <li v-if="authStore.user">
-              <span>{{ authStore.user.email }}</span>
+              <span>Name:{{ authStore.user.name }} | ID:{{ authStore.user.id }}</span>
             </li>
             <li v-if="authStore.user">
               <button @click="authStore.signOut">
