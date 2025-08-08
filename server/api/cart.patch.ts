@@ -1,4 +1,6 @@
-import { addToCart, getCart } from "~/lib/db/queries/cart";
+import z from "zod";
+
+import { addToCart, getCart, updateCart } from "~/lib/db/queries/cart";
 import { insertCartSchema } from "~/lib/db/schema";
 import sendZodError from "~/utils/send-zod-error";
 import { wait } from "~/utils/wait";
@@ -15,14 +17,17 @@ export default defineEventHandler(async (event) => {
     // }));
   }
 
-  const result = await readValidatedBody(event, insertCartSchema.safeParse);
+  const result = await readValidatedBody(event, z.object({
+    id: z.number(),
+    quantity: z.number(),
+  }).safeParse);
   if (!result.success) {
     return sendZodError(event, result.error as any);
   }
   // return "Blbalbal";
   console.log(result.data, "CART DATA");
 
-  const cart = await addToCart(result.data);
+  const cart = await updateCart(result.data.id, result.data.quantity);
 
   console.log(cart);
   return cart;

@@ -3,6 +3,9 @@ import { computed, onMounted, ref } from "vue";
 
 const header = ref<HTMLElement | null>(null);
 const authStore = useAuthStore();
+const cartStore = useCartStore();
+
+const cartCount = computed(() => cartStore.cart?.length);
 
 onMounted(() => {
   let prevPosY = window.scrollY;
@@ -82,7 +85,7 @@ const menuLinks = computed(() => {
 
         <!-- Desktop menu -->
         <div class="hidden flex-none lg:block">
-          <ul class="menu menu-horizontal">
+          <ul class="menu menu-horizontal gap-2 mx-2">
             <li v-for="link in menuLinks" :key="link.to">
               <NuxtLink :to="link.to">
                 {{ link.label }}
@@ -95,6 +98,14 @@ const menuLinks = computed(() => {
               <button @click="authStore.signOut">
                 Logout
               </button>
+            </li>
+            <li class="indicator">
+              <NuxtLink to="/cart" class="text-2xl flex p-1 hover:opacity-75">
+                <span
+                  class="indicator-item text-xs badge badge-secondary top-1 right-1.5 p-1 h-5 w-5  rounded-full bg-red-500 text-white border-red-500"
+                >{{ cartCount }}</span>
+                <Icon name="tabler:shopping-cart" />
+              </NuxtLink>
             </li>
           </ul>
         </div>
@@ -166,5 +177,21 @@ const menuLinks = computed(() => {
 .my-header.hide {
   transform: translateY(-100%);
   box-shadow: unset;
+}
+
+/* Optional: custom animation */
+@keyframes ping-short {
+  0% {
+    transform: scale(1.25);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-ping-short {
+  animation: ping-short 0.3s ease;
 }
 </style>

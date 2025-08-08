@@ -6,13 +6,20 @@ defineProps<{
 }>();
 
 const { $csrfFetch } = useNuxtApp();
-
+const authStore = useAuthStore();
 const cartStore = useCartStore();
+const isLoading = ref(false);
 // const authStore = useAuthStore();
 async function addToCart(productId: number) {
+  if (!authStore.user?.id) {
+    return;
+  }
+  isLoading.value = true;
+
   const reqBody = {
     productId,
-
+    userId: +authStore.user?.id,
+    quantity: 1,
   };
 
   const res = await $csrfFetch("/api/cart", {
@@ -22,6 +29,7 @@ async function addToCart(productId: number) {
   if (res) {
     cartStore.refreshCart();
   }
+  isLoading.value = false;
 }
 function isNewProduct(createdAt: number, daysAgo: number): boolean {
   const now = Date.now();
@@ -66,17 +74,21 @@ function isNewProduct(createdAt: number, daysAgo: number): boolean {
 
       <!-- <p>{{ product.description }}</p> -->
     </div>
-    <div class="card-footer  p-3 pt-2 flex  justify-between  items-end">
+    <div class="card-footer  p-3 pt-2 flex   justify-between  items-end">
       <span class="product-price badge text-sm sm:text-lg badge-ghost badge-soft  h-full ">
         {{ product.price }} RSD
       </span>
-      <button class="btn btn-sm sm:btn-md btn-primary  group" @click="addToCart(product.id)">
+      <button
+        :disabled="isLoading"
+        class="btn btn-sm sm:btn-md btn-primary  group"
+        @click="addToCart(product.id)"
+      >
         <Icon
           name="tabler:shopping-cart"
-          class=" group-hover:animate-bounce"
+          class=""
+          :class="{ 'animate-bounce': isLoading }"
           size="22"
-        />
-        Add to cart
+        />Add to cart
       </button>
     </div>
   </div>
