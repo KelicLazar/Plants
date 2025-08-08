@@ -19,7 +19,7 @@ const cartTotal = computed(() => {
       Manage your cart
     </h1>
     <div class="overflow-x-auto">
-      <table class="table table-zebra w-full ">
+      <table class="table table-zebra bg-base-100 w-full ">
         <!-- Table Header -->
         <thead>
           <tr>
