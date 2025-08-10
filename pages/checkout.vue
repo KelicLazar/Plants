@@ -77,6 +77,23 @@ function submitHandler() {
           label="Zip / Postal Code *"
           class="col-span-3"
         />
+        <Field
+          v-slot="{ field }"
+          name="terms"
+          type="radio"
+          :value="true"
+          :unchecked-value="false"
+        >
+          <label>
+            <input
+              type="checkbox"
+              name="terms"
+              v-bind="field"
+              :value="true"
+            >
+            I agree
+          </label>
+        </Field>
         <AppInputField
           :error="errors.description"
           type="textarea"
@@ -121,13 +138,29 @@ function submitHandler() {
               </td>
             </tr>
           </tbody>
-          <tfoot class="bg-base-300 w-full ">
+          <tfoot class="bg-base-200  w-full ">
             <tr class="w-full">
+              <th colspan="3" class="text-left text-lg">
+                Subtotal:
+              </th>
+              <th colspan="1" class="text-xl text-right font-bold text-primary">
+                {{ cartTotal?.toLocaleString() }} RSD
+              </th>
+            </tr>
+            <tr>
+              <th class="text-md">
+                Delivery:
+              </th>
+              <th colspan="5" class="text-lg text-primary text-right">
+                300 RSD
+              </th>
+            </tr>
+            <tr class="w-full bg-base-300">
               <th colspan="3" class="text-left text-lg">
                 Total:
               </th>
               <th colspan="1" class="text-xl text-right font-bold text-primary">
-                {{ cartTotal?.toLocaleString() }} RSD
+                {{ ((cartTotal || 0) + 300).toLocaleString() }} RSD
               </th>
             </tr>
             <tr class="">

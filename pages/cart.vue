@@ -33,6 +33,9 @@ const cartTotal = computed(() => {
 
         <!-- Table Body -->
         <tbody>
+          <template v-if="cartStore.cartStatus === 'idle' || cartStore.cartStatus === 'pending'">
+            <AppCartItemSkeleton v-for="item, index in 5" :key="index" />
+          </template>
           <AppCartItem
             v-for="item in cartItems"
             :key="item.id"

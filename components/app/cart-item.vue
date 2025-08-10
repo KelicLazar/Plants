@@ -31,8 +31,9 @@ watch(quantity, (newVal) => {
 
 async function updateQuantity(itemId: number, newQuantity: number) {
   if (newQuantity < 1) {
-    quantity.value = 1;
-    newQuantity = 1;
+    quantity.value = 0;
+    newQuantity = 0;
+    return removeFromCart(itemId);
   }
   if (newQuantity > item.product.stock) {
     quantity.value = item.product.stock;
