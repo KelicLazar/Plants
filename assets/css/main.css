@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "@nuxt/ui";
 @plugin "daisyui/theme" {
   name: "autumn-dark";
   default: false;

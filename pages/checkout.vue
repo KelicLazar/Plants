@@ -20,7 +20,7 @@ function submitHandler() {
       Checkout page
     </h1>
     <span class="text-2xl mt-5 flex mb-3">Enter details for delivery</span>
-    <div class="grid grid-cols-12 gap-4 items-stretch">
+    <div class="grid grid-cols-12 gap-10 items-stretch">
       <form
         class="checkout-form col-span-7 grid grid-cols-12 gap-2"
         @submit="submitHandler"
@@ -103,7 +103,7 @@ function submitHandler() {
         />
       </form>
       <div class="cart-info col-span-5">
-        <table class="table table-zebra w-full ">
+        <table class="table  w-full ">
           <!-- Table Header -->
           <thead>
             <tr>

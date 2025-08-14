@@ -18,7 +18,7 @@ defineProps<{
   </figure>
   <figure
     v-if="sideImage"
-    class="w-full h-full absolute top-0 left-0 object-cover object-right transition-opacity duration-500 opacity-0 group-hover:opacity-100 "
+    class="w-full h-full absolute top-0 left-0 object-cover object-right transition-all duration-500 opacity-0 group-hover:opacity-100 group-hover:scale-110 "
   >
     <img
       :src="sideImage"

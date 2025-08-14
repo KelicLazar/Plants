@@ -34,3 +34,7 @@
   .scrollbar-modern::-webkit-scrollbar-track {
     background: transparent;
   }
+  .before::before,.after::after {
+    @apply absolute  w-full ;
+  content: '';
+  }

@@ -102,6 +102,7 @@ const menuLinks = computed(() => {
             <li class="indicator">
               <NuxtLink to="/cart" class="text-2xl flex p-1 hover:opacity-75">
                 <span
+                  v-if="cartCount"
                   class="indicator-item text-xs badge badge-secondary top-1 right-1.5 p-1 h-5 w-5  rounded-full bg-red-500 text-white border-red-500"
                 >{{ cartCount }}</span>
                 <Icon name="tabler:shopping-cart" />

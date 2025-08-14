@@ -2,7 +2,7 @@ import { getCart } from "~/lib/db/queries/cart";
 import { wait } from "~/utils/wait";
 
 export default defineEventHandler(async (event) => {
-  await wait(15);
+  // await wait(15);
   console.log(event.context, "EVENT CONTEXT ???????????????????????????????@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", event.context.user);
   if (!event.context.user) {
     console.log(event.context.user, "EVENT CONTEXT user");

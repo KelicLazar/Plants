@@ -11,19 +11,22 @@ const productsStore = useProductsStore();
         Checkout our <br>Most Popular plants
       </h1>
     </div>
-    <div class="carousel bg-transparent shadow-2xl flex  w-full   m-auto space-x-4">
-      <div
-        v-for="product in productsStore.products"
 
-        :key="product.id"
-        class="carousel-item w-75/100 sm:w-48/100 md:w-40/100 lg:w-30/100 xl:w-2/7"
-      >
-        <AppProductCard
-          :product="product"
-          class="carousel-item"
-        />
-      </div>
-    </div>
+    <UCarousel
+      v-if="productsStore.products"
+      v-slot="{ item }"
+      :items="[...productsStore.products.toSpliced(1, 5)]"
+      class="w-full mx-auto py-2"
+      :ui="{
+        item: 'my-2 basis-3/4 sm:basis-48/100 md:basis-40/100 lg:basis-30/100 xl:basis-2/7',
+        container: 'flex items-stretch',
+      }"
+    >
+      <AppProductCard
+        :product="item"
+        class="h-full w-full"
+      />
+    </UCarousel>
 
     <div class="section-footer  m-auto mt-8 flex justify-end">
       <NuxtLink to="/products" class="btn btn-accent btn-lg  group">

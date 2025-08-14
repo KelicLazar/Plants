@@ -147,7 +147,10 @@ async function removeFromCart(itemId: number) {
           <Icon name="tabler:minus" size="16" />
         </button>
 
+        <div v-if="isLoading" class="skeleton  h-8 w-16 " />
+
         <input
+          v-else
           v-model.number="quantity"
           type="number"
           min="1"
@@ -171,9 +174,8 @@ async function removeFromCart(itemId: number) {
     <!-- Total Price -->
     <td>
       <div class="text-lg font-bold text-primary w-30">
-        <span v-if="isLoading" class="animate-pulse duration-75">Calculating...</span>
+        <div v-if="isLoading" class="skeleton h-6 w-full" />
         <span v-else>
-
           {{ (item.product.price * quantity).toLocaleString() }} RSD
         </span>
       </div>

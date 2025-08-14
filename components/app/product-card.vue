@@ -1,49 +1,48 @@
 <script lang="ts" setup>
 import type { Product } from "~/lib/db/types";
 
-defineProps<{
+const { product } = defineProps<{
   product: Product;
 }>();
-
-const { $csrfFetch } = useNuxtApp();
-const authStore = useAuthStore();
+const toast = useToast();
+// const { $csrfFetch } = useNuxtApp();
+// const authStore = useAuthStore();
 const cartStore = useCartStore();
 const isLoading = ref(false);
 // const authStore = useAuthStore();
-async function addToCart(productId: number) {
-  if (!authStore.user?.id) {
-    return;
-  }
-  isLoading.value = true;
 
-  const reqBody = {
-    productId,
-    userId: +authStore.user?.id,
-    quantity: 1,
-  };
-
-  const res = await $csrfFetch("/api/cart", {
-    method: "post",
-    body: reqBody,
-  });
-  if (res) {
-    cartStore.refreshCart();
-  }
-  isLoading.value = false;
-}
 function isNewProduct(createdAt: number, daysAgo: number): boolean {
   const now = Date.now();
   const pastDays = daysAgo * 24 * 60 * 60 * 1000;
   return now - createdAt <= pastDays;
 }
+
+async function handleAddToCart(productId: number) {
+  isLoading.value = true;
+  const { error } = await cartStore.addToCart(productId);
+  isLoading.value = false;
+  console.log(error, "errr");
+  if (error) {
+    // useToast().error(error); // or your UI alert system
+  }
+  else {
+    toast.add({
+      title: "Successfully added item to cart!",
+      description: "",
+      color: "success",
+    });
+
+    console.log(toast.toasts);
+  }
+}
 </script>
 
 <template>
-  <div class="card group bg-base-150 w-full shadow-sm hover:bg-base-200/40 hover:-translate-y-1.5 duration-300 transition-all ">
+  <div class="card shadow-sm pb-2 before  before:bg-accent before:left-0 before:h-2 before:origin-bottom before:bottom-0 before:duration-400 before:scale-y-0 before:transition-all hover:before:scale-y-100  group bg-base-150 w-full  hover:bg-base-200/40  duration-300 transition-all ">
     <NuxtLink
       v-if="product.mainImage || product.sideImage"
       :to="`/products/${product.slug}`"
-      class="relative w-full aspect-square overflow-hidden"
+      class="relative w-full aspect-square overflow-hidden "
     >
       <AppProductImage
         :main-image="product.mainImage"
@@ -76,12 +75,12 @@ function isNewProduct(createdAt: number, daysAgo: number): boolean {
     </div>
     <div class="card-footer  p-3 pt-2 flex   justify-between  items-end">
       <span class="product-price badge text-sm sm:text-lg badge-ghost badge-soft  h-full ">
-        {{ product.price }} RSD
+        {{ product.price.toLocaleString() }} RSD
       </span>
       <button
         :disabled="isLoading"
         class="btn btn-sm sm:btn-md btn-primary  group"
-        @click="addToCart(product.id)"
+        @click="handleAddToCart(product.id)"
       >
         <Icon
           name="tabler:shopping-cart"
