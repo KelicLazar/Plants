@@ -11,6 +11,7 @@ const productStore = useProductsStore();
 const submitError = ref("");
 const mainPreview = ref("");
 const sidePreview = ref("");
+const isLoading = ref(false);
 
 const categories = computed(() => categoryStore.categories);
 
@@ -31,8 +32,7 @@ function selectImage(event: Event, isSide: boolean = false) {
   }
 }
 const onSubmit = handleSubmit(async (formValues) => {
-  // console.log("submiting");
-  // console.log(formValues);
+  isLoading.value = true;
   submitError.value = "";
   try {
     // Create FormData instead of sending JSON
@@ -60,9 +60,10 @@ const onSubmit = handleSubmit(async (formValues) => {
     });
     if (res.id) {
       productStore.refreshProducts();
+      isLoading.value = true;
       navigateTo("/products");
     }
-    // console.log(res, "?????res");
+    isLoading.value = true;
   }
   catch (e) {
     const error = e as FetchError;
@@ -217,7 +218,18 @@ const onSubmit = handleSubmit(async (formValues) => {
             Cancel
           </button>
           <button class="btn btn-primary" type="submit">
-            Add Product
+            <div
+              v-if="isLoading"
+              class="animate-pulse flex gap-1 items-center"
+            >
+              <Icon
+                size="20"
+                name="tabler:loader-2"
+                class="animate-spin"
+              />
+              Adding...
+            </div>
+            <span v-else>Add Product</span>
           </button>
         </div>
         <p v-if="submitError" class="text-error-content bg-error p-2 mt-4">

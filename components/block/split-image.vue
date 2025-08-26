@@ -18,13 +18,13 @@ onMounted(() => {
   if (leftImgRef.value) {
     gsap.to(leftImgRef.value, {
       y: 16,
-      ease: "none",
-      delay: 0, // remove delay to avoid confusion
+      ease: "ease.out",
+      delay: 0,
       scrollTrigger: {
         trigger: leftImgRef.value,
         start: "top 80%",
         end: "top 20%",
-        scrub: true,
+        scrub: 0.8,
       },
     });
   }
@@ -32,13 +32,13 @@ onMounted(() => {
   if (rightImgRef.value) {
     gsap.to(rightImgRef.value, {
       y: -16,
-      ease: "none",
+      ease: "ease.out",
       delay: 0,
       scrollTrigger: {
         trigger: rightImgRef.value,
         start: "top 80%",
         end: "top 20%",
-        scrub: true,
+        scrub: 0.8,
       },
     });
   }

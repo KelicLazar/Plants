@@ -1,9 +1,12 @@
 <script lang="ts" setup>
 const productStore = useProductsStore();
+const cartStore = useCartStore();
 const product = computed(() => productStore.currentProduct);
 const status = computed(() => productStore.currentProductStatus);
-
+const isLoading = ref(false);
+const toast = useToast();
 const bigImage = ref<string>("");
+const router = useRouter();
 
 // Set big image when product loads or changes
 watch(product, (newProduct) => {
@@ -20,6 +23,52 @@ onMounted(async () => {
 // Helper function to set big image
 function setBigImage(imageUrl: string) {
   bigImage.value = imageUrl;
+}
+
+async function handleAddToCart(productId: number) {
+  isLoading.value = true;
+
+  const res = await cartStore.addToCart(productId);
+
+  if (res.error) {
+    toast.add({
+      title: res.error,
+      description: "",
+      color: "error",
+      ui: {
+        root: "bg-error-200 text-error-content",
+      },
+      avatar: {
+        src: product?.value?.mainImage || "",
+      },
+    });
+  }
+  else {
+    toast.add({
+      title: `${product?.value?.name} added to cart!`,
+      color: "success",
+      ui: {
+        root: "bg-success-200 text-success-content",
+      },
+      actions: [{
+        icon: "tabler:shopping-cart",
+        label: "View Cart",
+        color: "primary",
+        variant: "solid",
+        ui: {
+          base: "rounded-none cursor-pointer",
+        },
+
+        onClick: (_) => {
+          router.push("/cart");
+        },
+      }],
+      avatar: {
+        src: product?.value?.mainImage || "",
+      },
+    });
+  }
+  isLoading.value = false;
 }
 </script>
 
@@ -141,11 +190,13 @@ function setBigImage(imageUrl: string) {
             </span>
             <button
               class="btn  group btn-primary flex-1"
-              :disabled="product.stock === 0"
+              :disabled="product.stock === 0 || isLoading"
+              @click="handleAddToCart(product.id)"
             >
               <Icon
                 name="tabler:shopping-cart"
                 class=" group-hover:animate-bounce"
+                :class="{ 'animate-bounce': isLoading }"
                 size="22"
               />
               Add to Cart

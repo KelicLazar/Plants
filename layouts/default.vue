@@ -13,7 +13,7 @@ if (!sessionData?.data?.value?.user) {
 <template>
   <div>
     <AppHeader />
-    <main class="min-h-lvh w-full">
+    <main class="min-h-lvh w-full bg-base-100 text-base-content">
       <slot />
     </main>
     <AppFooter />

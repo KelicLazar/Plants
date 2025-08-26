@@ -71,6 +71,11 @@ export async function findProductBySlug(slug: string) {
     where: eq(products.slug, slug),
   });
 }
+export async function findProductById(id: number) {
+  return db.query.products.findFirst({
+    where: eq(products.id, id),
+  });
+}
 
 export async function findProductsByName(name: string) {
   return db.query.products.findFirst({

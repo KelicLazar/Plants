@@ -74,4 +74,8 @@ html, body {
   to {clip-path: circle(130% at 90% 10%)}
 }
 
+.my-header.not-top:not(.hide) {
+  @apply bg-accent text-accent-content
+}
+
 @import "./base.css";

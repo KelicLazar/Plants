@@ -15,7 +15,7 @@ export const useCartStore = defineStore("useCartStore", () => {
 
     const reqBody = {
       productId,
-      userId: +authStore.user?.id,
+      userId: +authStore.user.id,
       quantity: 1,
     };
     try {
@@ -23,16 +23,13 @@ export const useCartStore = defineStore("useCartStore", () => {
         method: "post",
         body: reqBody,
       });
-      if (res) {
-        refreshCart();
-      }
-      console.log(res, "RESSSS");
-
-      return res;
+      refreshCart();
+      return { data: res, error: null };
     }
     catch (error) {
-      console.log(error);
-      return error;
+      const errorMessage = extractErrorMessage(error);
+
+      return { data: null, error: errorMessage };
     }
   }
 

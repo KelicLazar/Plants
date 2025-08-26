@@ -15,8 +15,14 @@ const productsStore = useProductsStore();
     <UCarousel
       v-if="productsStore.products"
       v-slot="{ item }"
-      :items="[...productsStore.products.toSpliced(1, 5)]"
+      :items="productsStore.products.slice(0, 5)"
       class="w-full mx-auto py-2"
+      :auto-scroll="{
+        stopOnInteraction: false,
+        stopOnMouseEnter: true,
+
+      }"
+      loop
       :ui="{
         item: 'my-2 basis-3/4 sm:basis-48/100 md:basis-40/100 lg:basis-30/100 xl:basis-2/7',
         container: 'flex items-stretch',

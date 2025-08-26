@@ -4,7 +4,6 @@ import { computed, onMounted, ref } from "vue";
 const header = ref<HTMLElement | null>(null);
 const authStore = useAuthStore();
 const cartStore = useCartStore();
-
 const cartCount = computed(() => cartStore.cart?.length);
 
 onMounted(() => {
@@ -69,7 +68,7 @@ const menuLinks = computed(() => {
     >
     <div
       ref="header"
-      class="my-header drawer-content z-50 bg-accent text-accent-content min-h-16 lg:py-2 fixed w-full flex flex-col"
+      class="my-header drawer-content z-50 bg-transparent text-base-content min-h-16 lg:py-2 fixed w-full flex flex-col"
     >
       <!-- Navbar -->
       <div class="navbar m-auto px-3 mt-0 max-w-400">
@@ -80,6 +79,9 @@ const menuLinks = computed(() => {
           </NuxtLink>
           <button class="btn btn-secondary" @click="authStore.signInAnonymously">
             Anon
+          </button>
+          <button class="btn btn-error" @click="createError({ fatal: false, message: 'test eeror header' })">
+            Error
           </button>
         </div>
 
@@ -98,6 +100,11 @@ const menuLinks = computed(() => {
               <button @click="authStore.signOut">
                 Logout
               </button>
+            </li>
+            <li v-if="authStore.user" class="!rounded-full overflow-hidden !outline-none active:rounded-full">
+              <AppUserAvatar
+                :user="authStore.user"
+              />
             </li>
             <li class="indicator">
               <NuxtLink to="/cart" class="text-2xl flex p-1 hover:opacity-75">
@@ -171,9 +178,6 @@ const menuLinks = computed(() => {
 <style scoped>
 .my-header {
   transition: all 0.3s;
-}
-.my-header.not-top {
-  box-shadow: 8px 8px 8px 0px rgba(0, 0, 0, 0.164);
 }
 .my-header.hide {
   transform: translateY(-100%);

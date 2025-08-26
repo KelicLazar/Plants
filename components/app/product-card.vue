@@ -8,6 +8,7 @@ const toast = useToast();
 // const { $csrfFetch } = useNuxtApp();
 // const authStore = useAuthStore();
 const cartStore = useCartStore();
+const router = useRouter();
 const isLoading = ref(false);
 // const authStore = useAuthStore();
 
@@ -19,26 +20,53 @@ function isNewProduct(createdAt: number, daysAgo: number): boolean {
 
 async function handleAddToCart(productId: number) {
   isLoading.value = true;
-  const { error } = await cartStore.addToCart(productId);
-  isLoading.value = false;
-  console.log(error, "errr");
-  if (error) {
-    // useToast().error(error); // or your UI alert system
+
+  const res = await cartStore.addToCart(productId);
+
+  if (res.error) {
+    toast.add({
+      title: res.error,
+      description: "",
+      color: "error",
+      ui: {
+        root: "bg-error-200 text-error-content",
+      },
+      avatar: {
+        src: product.mainImage || "",
+      },
+    });
   }
   else {
     toast.add({
-      title: "Successfully added item to cart!",
-      description: "",
+      title: `${product.name} added to cart!`,
       color: "success",
-    });
+      ui: {
+        root: "bg-success-200 text-success-content",
+      },
+      actions: [{
+        icon: "tabler:shopping-cart",
+        label: "View Cart",
+        color: "primary",
+        variant: "solid",
+        ui: {
+          base: "rounded-none cursor-pointer",
+        },
 
-    console.log(toast.toasts);
+        onClick: (_) => {
+          router.push("/cart");
+        },
+      }],
+      avatar: {
+        src: product.mainImage || "",
+      },
+    });
   }
+  isLoading.value = false;
 }
 </script>
 
 <template>
-  <div class="card shadow-sm pb-2 before  before:bg-accent before:left-0 before:h-2 before:origin-bottom before:bottom-0 before:duration-400 before:scale-y-0 before:transition-all hover:before:scale-y-100  group bg-base-150 w-full  hover:bg-base-200/40  duration-300 transition-all ">
+  <div class="card shadow-sm pb-2 before  before:bg-accent before:left-0 before:h-1.5 before:origin-bottom-left before:bottom-0 before:duration-400 before:scale-x-0 before:scale-y-0 before:transition-all hover:before:scale-y-100 hover:before:scale-x-100  group bg-base-150 w-full  hover:bg-base-200/40  duration-300 transition-all ">
     <NuxtLink
       v-if="product.mainImage || product.sideImage"
       :to="`/products/${product.slug}`"
@@ -49,7 +77,7 @@ async function handleAddToCart(productId: number) {
         :side-image="product.sideImage"
         :alt="product.name"
       />
-      <div v-if="isNewProduct(product.createdAt, 1)" class="absolute z-2 top-4 right-4 badge badge-secondary">
+      <div v-if="isNewProduct(product.createdAt, 7)" class="absolute z-2 top-4 right-4 badge badge-secondary">
         NEW
       </div>
     </NuxtLink>
@@ -60,7 +88,7 @@ async function handleAddToCart(productId: number) {
           {{ product.name }}
         </NuxtLink>
       </h2>
-      <div class="product-categories flex gap-2 flex-wrap ">
+      <div class="product-categories  flex gap-2 flex-wrap ">
         <NuxtLink
           v-for="category in product.productCategories"
           :key="`${category.productId}-${category.categoryId}`"

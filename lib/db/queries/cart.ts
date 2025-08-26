@@ -13,26 +13,17 @@ export async function getCart(userId: number = 1) {
     where: eq(carts.userId, userId),
   });
 }
-
-export async function addToCart(data: InsertCartType) {
-//   const [inserted] = await db.insert(categories).values({ ...values, slug }).returning();
-
-  const existing = await db.query.carts.findFirst({
+export async function findCartItem(userId: number, productId: number) {
+  return await db.query.carts.findFirst({
     where:
     and(
-      eq(carts.userId, data.userId),
-      eq(carts.productId, data.productId),
+      eq(carts.userId, userId),
+      eq(carts.productId, productId),
     ),
   });
-  console.log("EXISTING", existing);
-  if (existing) {
-    const newQuantity = existing.quantity + 1;
-    return updateCart(existing.id, newQuantity);
-  }
-  else {
-    const [inserted] = await db.insert(carts).values({ ...data }).returning();
-    return inserted;
-  }
+}
+export async function addToCart(data: InsertCartType) {
+  return await db.insert(carts).values({ ...data }).returning();
 }
 
 export async function updateCart(cartId: number, newQuantity: number) {

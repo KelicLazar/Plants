@@ -11,6 +11,9 @@ const cartTotal = computed(() => {
     return acc + (curr.quantity * curr.product.price);
   }, 0);
 });
+onMounted(() => {
+  cartStore.refreshCart();
+});
 </script>
 
 <template>

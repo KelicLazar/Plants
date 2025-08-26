@@ -10,7 +10,7 @@ const { item } = defineProps<{
 const { $csrfFetch } = useNuxtApp();
 const cartStore = useCartStore();
 const authStore = useAuthStore();
-
+const toast = useToast();
 // const quantity = ref(item.quantity);
 const quantity = toRef(item.quantity);
 const isLoading = ref(false);
@@ -84,6 +84,17 @@ async function removeFromCart(itemId: number) {
   });
   if (res) {
     cartStore.refreshCart();
+    toast.add({
+      title: `${item.product.name} remove from cart`,
+      color: "error",
+      avatar: {
+        src: item.product.mainImage || "",
+      },
+      ui: {
+        root: "bg-error-200 flex items-center justify-center",
+      },
+
+    });
   }
   isRemoving.value = false;
 }
@@ -106,7 +117,7 @@ async function removeFromCart(itemId: number) {
       </button>
     </td>
     <td>
-      <div class="flex items-center gap-3">
+      <NuxtLink :to="`/products/${item.product.slug}`" class="flex items-center gap-3">
         <div class="avatar">
           <div class="h-16 w-16">
             <img
@@ -125,7 +136,7 @@ async function removeFromCart(itemId: number) {
             {{ item.product.description || 'No description' }}
           </div>
         </div>
-      </div>
+      </NuxtLink>
     </td>
 
     <!-- Price -->
