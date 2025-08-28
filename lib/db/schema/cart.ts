@@ -4,6 +4,7 @@ import { relations } from "drizzle-orm";
 import { int, sqliteTable } from "drizzle-orm/sqlite-core";
 import { createInsertSchema } from "drizzle-zod";
 
+import { user } from "./auth";
 import { products } from "./product";
 
 export const carts = sqliteTable("carts", {
@@ -19,6 +20,10 @@ export const cartRelations = relations(carts, ({ one }) => ({
   product: one(products, {
     fields: [carts.productId],
     references: [products.id],
+  }),
+  user: one(user, {
+    fields: [carts.userId],
+    references: [user.id],
   }),
 }));
 

@@ -11,7 +11,7 @@
       class="w-full  h-full object-cover"
     />
 
-    <div class="hero-overlay" />
+    <div class="hero-overlay bg-base-200/30" />
     <div class="hero-content text-neutral-content md:text-center ">
       <div class="max-w-280 ">
         <h1 class="mb-8 text-5xl md:text-7xl xl:text-8xl font-bold">
