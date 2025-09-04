@@ -41,7 +41,7 @@ async function handleAddToCart(productId: number) {
       title: `${product.name} added to cart!`,
       color: "success",
       ui: {
-        root: "bg-success-200 text-success-content",
+        root: "bg-success-200 text-success-content rounded-none",
       },
       actions: [{
         icon: "tabler:shopping-cart",
@@ -101,21 +101,33 @@ async function handleAddToCart(productId: number) {
 
       <!-- <p>{{ product.description }}</p> -->
     </div>
-    <div class="card-footer  p-3 pt-2 flex   justify-between  items-end">
-      <span class="product-price badge text-sm sm:text-lg badge-ghost badge-soft  h-full ">
+    <div class="card-footer  p-3 pt-2 flex   justify-between  items-center">
+      <span class="product-price  text-sm sm:text-lg badge h-full badge-outline">
         {{ product.price.toLocaleString() }} RSD
       </span>
       <button
-        :disabled="isLoading"
+        :disabled="isLoading || product.stock < 1"
         class="btn btn-sm sm:btn-md btn-primary  group"
         @click="handleAddToCart(product.id)"
       >
-        <Icon
-          name="tabler:shopping-cart"
-          class=""
-          :class="{ 'animate-bounce': isLoading }"
-          size="22"
-        />Add to cart
+        <template v-if="product.stock < 1">
+          <Icon
+            name="tabler:shopping-cart-off"
+            class=""
+            :class="{ 'animate-bounce': isLoading }"
+            size="22"
+          />
+          <span>Out of stock</span>
+        </template>
+        <template v-else>
+          <Icon
+            name="tabler:shopping-cart"
+            class=""
+            :class="{ 'animate-bounce': isLoading }"
+            size="22"
+          />
+          <span>Add to cart</span>
+        </template>
       </button>
     </div>
   </div>

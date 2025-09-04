@@ -1,0 +1,36 @@
+import { getOrderById } from "~/lib/db/queries/order";
+import { getOrderItemsByOrderId } from "~/lib/db/queries/order-items";
+
+export default defineEventHandler(async (event) => {
+  if (!event.context.user) {
+    return sendError(event, createError({
+      statusCode: 401,
+      statusMessage: "Unauthorized!!!",
+    }));
+  }
+  const orderId = getRouterParam(event, "id");
+  if (!orderId) {
+    return sendError(
+      event,
+      createError({
+        statusCode: 400,
+        statusMessage: "Order ID is required",
+      }),
+    );
+  }
+
+  const order = await getOrderById(+orderId);
+
+  if (!order) {
+    return sendError(
+      event,
+      createError({
+        statusCode: 404,
+        statusMessage: "Order not found",
+      }),
+    );
+  }
+  const orderItems = await getOrderItemsByOrderId(order.id);
+
+  return { order, items: orderItems };
+});

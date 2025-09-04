@@ -78,10 +78,10 @@ const menuLinks = computed(() => {
             Small Plants Shop
           </NuxtLink>
           <button class="btn btn-secondary" @click="authStore.signInAnonymously">
-            Anon
+            Anonymous login
           </button>
-          <button class="btn btn-error" @click="createError({ fatal: false, message: 'test eeror header' })">
-            Error
+          <button class="btn btn-error" @click="() => { cartStore.refreshCart() }">
+            Refresh cart
           </button>
         </div>
 

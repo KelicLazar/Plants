@@ -1,11 +1,11 @@
-import { and, asc, desc, eq, exists } from "drizzle-orm";
+import { and, asc, desc, eq, exists, gte, sql } from "drizzle-orm";
 import { customAlphabet } from "nanoid";
 
-import type { InsertProductType, ProductFormType } from "../schema";
+import type { InsertProductType } from "../schema";
+import type { DBorTX, Product } from "../types";
 
 import db from "..";
 import { categories, productCategories, products } from "../schema";
-import { findCategoryBySlug } from "./category";
 
 const nanoid = customAlphabet("1234567890qwertyuioplkjhgfdsazxcvbnm");
 const sortableFields = {
@@ -18,7 +18,7 @@ const sortableFields = {
 export type SortableField = keyof typeof sortableFields;
 export async function getProducts(
   page = 1,
-  limit = 12,
+  limit = 20,
   orderBy: SortableField = "created_at",
   sortOrder = "desc",
   categorySlug: string,
@@ -113,4 +113,26 @@ export async function insertProduct(productData: InsertProductType & { slug: str
     return newProduct;
   });
   return product;
+}
+
+export async function updateProduct(productId: number, newValues: Partial<Product>, database: DBorTX = db) {
+  const updated = await database.update(products)
+    .set(newValues)
+    .where(eq(products.id, productId));
+
+  return updated;
+}
+
+export async function updateProductStock(productId: number, quantity: number, database: DBorTX = db) {
+  const updateResult = await database.update(products)
+    .set({
+      stock: sql`stock - ${quantity}`,
+    })
+    .where(and(
+      eq(products.id, productId),
+      gte(products.stock, quantity),
+    ))
+    .returning();
+
+  return updateResult;
 }

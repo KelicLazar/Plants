@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { int, real, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { int, real, sqliteTable } from "drizzle-orm/sqlite-core";
 
 import { orders } from "./order";
 import { products } from "./product";

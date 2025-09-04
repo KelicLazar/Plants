@@ -7,7 +7,7 @@ export const useProductsStore = defineStore("useProductsStore", () => {
 
   const totalCount = ref(0);
   const currentPage = ref(1);
-  const itemsPerPage = ref(12);
+  const itemsPerPage = ref(20);
   const orderBy = ref("created_at");
   const sort = ref("desc");
   const currentCategory = ref<string | null>(null);

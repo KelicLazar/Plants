@@ -17,15 +17,15 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="section-container cart-page pt-30">
-    <h1 class="text-3xl">
+  <div class="section-container cart-page pt-30 px-3">
+    <h1 class="text-3xl mb-4">
       Manage your cart
     </h1>
     <div class="overflow-x-auto">
       <table class="table table-zebra bg-base-100 w-full ">
         <!-- Table Header -->
         <thead>
-          <tr>
+          <tr class="text-sm">
             <th>Actions</th>
             <th>Product</th>
             <th>Price</th>
@@ -85,3 +85,9 @@ onMounted(() => {
     </div>
   </div>
 </template>
+
+<style scoped>
+th {
+  padding-inline: 4px;
+}
+</style>

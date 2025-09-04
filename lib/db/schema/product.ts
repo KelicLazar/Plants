@@ -1,5 +1,5 @@
-import { relations } from "drizzle-orm";
-import { int, real, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { relations, sql } from "drizzle-orm";
+import { check, int, real, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { createInsertSchema } from "drizzle-zod";
 import z from "zod";
 
@@ -16,7 +16,10 @@ export const products = sqliteTable("products", {
   sideImage: text("side_image"),
   createdAt: int("created_at").notNull().$default(() => Date.now()),
   updatedAt: int("updated_at").notNull().$default(() => Date.now()).$onUpdate(() => Date.now()),
-});
+}, table => ({
+  // This prevents stock from going below 0 at database level
+  stockPositive: check("stock_positive", sql`${table.stock} >= 0`),
+}));
 
 export const productsRelations = relations(products, ({ many }) => ({
   productCategories: many(productCategories),
@@ -42,7 +45,7 @@ export const ProductFormSchema = z.object({
   name: z.string().min(1).max(150),
   description: z.string().max(300).nullable(),
   price: z.number().min(0),
-  stock: z.number().int().min(0),
+  stock: z.number().int(),
   categoryIds: z.array(z.number().int().min(1)).nonempty("Select at least one category"),
   mainImage: z
     .instanceof(File)

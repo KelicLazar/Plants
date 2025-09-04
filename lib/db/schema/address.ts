@@ -1,6 +1,7 @@
 import { relations } from "drizzle-orm";
 import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { createInsertSchema } from "drizzle-zod";
+import z from "zod";
 
 import { user } from "./auth";
 
@@ -40,5 +41,17 @@ export const InsertAddressSchema = createInsertSchema(addresses, {
   createdAt: true,
 });
 
+export const AddressFormSchema = z.object({
+  firstName: z.string().min(1),
+  lastName: z.string().min(1),
+  streetAddress: z.string().min(1),
+  city: z.string().min(1),
+  postalCode: z.string().min(1),
+  country: z.string().min(1),
+  phone: z
+    .string()
+    .regex(/^\+?[0-9\s\-().]{7,20}$/, { message: "Please enter a valid phone number (7-20 digits, may include spaces, dashes, parentheses, and an optional +)." }),
+});
 // @ts-expect-error nzm
 export type InsertAddressType = z.infer<typeof InsertAddressSchema>;
+export type AddressFormSchemaType = z.infer<typeof AddressFormSchema>;

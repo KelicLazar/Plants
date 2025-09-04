@@ -104,7 +104,7 @@ async function removeFromCart(itemId: number) {
   <tr
     class="hover"
   >
-    <td>
+    <td class="max-w-4">
       <button
         class="btn btn-sm btn-error btn-outline"
 
@@ -119,7 +119,7 @@ async function removeFromCart(itemId: number) {
     <td>
       <NuxtLink :to="`/products/${item.product.slug}`" class="flex items-center gap-3">
         <div class="avatar">
-          <div class="h-16 w-16">
+          <div class="h-10 w-10 md:h-16 md:w-16">
             <img
               v-if="item?.product?.mainImage"
               :src="item?.product?.mainImage"
@@ -129,10 +129,10 @@ async function removeFromCart(itemId: number) {
           </div>
         </div>
         <div>
-          <div class="font-bold text-base">
+          <div class="font-bold text-base hidden md:flex">
             {{ item.product.name }}
           </div>
-          <div class="text-sm opacity-50">
+          <div class="text-sm opacity-50 hidden lg:flex">
             {{ item.product.description || 'No description' }}
           </div>
         </div>
@@ -140,10 +140,10 @@ async function removeFromCart(itemId: number) {
     </td>
 
     <!-- Price -->
-    <td>
-      <div class="text-lg font-semibold flex w-25 flex-col">
+    <td class="p-1">
+      <div class="md:text-lg font-semibold flex w-20 md:w-25 flex-col">
         {{ item.product.price }} RSD
-        <span class="badge badge-soft text-xs  badge-success" :class="{ 'badge-warning': item.product.stock < 10, '!badge-error': item.product.stock < 5 }">In stock: {{ item.product.stock }}</span>
+        <span class="badge badge-soft text-xs px-1 md:px-2 badge-success" :class="{ 'badge-warning': item.product.stock < 10, '!badge-error': item.product.stock < 5 }">In stock: {{ item.product.stock }}</span>
       </div>
     </td>
 
@@ -151,14 +151,14 @@ async function removeFromCart(itemId: number) {
     <td>
       <div class="flex gap-2  items-center">
         <button
-          class="btn btn-sm btn-outline btn-circle"
+          class="btn w-5 h-5 md:btn-sm btn-outline btn-circle"
           :disabled="isLoading"
           @click="updateQuantity(item.id, item.quantity - 1)"
         >
-          <Icon name="tabler:minus" size="16" />
+          <Icon name="tabler:minus" size="14" />
         </button>
 
-        <div v-if="isLoading" class="skeleton  h-8 w-16 " />
+        <div v-if="isLoading" class="skeleton  h-8 w-8 md:w-16 " />
 
         <input
           v-else
@@ -166,18 +166,18 @@ async function removeFromCart(itemId: number) {
           type="number"
           min="1"
           :max="item.product.stock"
-          class="input input-sm input-bordered w-16 text-center"
+          class="input input-sm input-bordered h-8 p-0 w-8 md:w-16 text-center"
           :disabled="isLoading"
           @blur="updateQuantity(item.id, quantity)"
           @keyup.enter="updateQuantity(item.id, quantity)"
         >
 
         <button
-          class="btn btn-sm btn-outline btn-circle"
+          class="btn w-5 h-5 md:btn-sm btn-outline btn-circle"
           :disabled="isLoading"
           @click="updateQuantity(item.id, item.quantity + 1)"
         >
-          <Icon name="tabler:plus" size="16" />
+          <Icon name="tabler:plus" size="14" />
         </button>
       </div>
     </td>
@@ -191,7 +191,5 @@ async function removeFromCart(itemId: number) {
         </span>
       </div>
     </td>
-
-    <!-- Remove Button -->
   </tr>
 </template>

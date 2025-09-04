@@ -12,6 +12,7 @@ export const orders = sqliteTable("orders", {
   status: text("status").notNull().default("pending"), // pending, paid, shipped, delivered, canceled
   createdAt: int("created_at").notNull().$default(() => Date.now()),
   updatedAt: int("updated_at").notNull().$default(() => Date.now()).$onUpdate(() => Date.now()),
+  note: text("note"),
 });
 
 export const orderRelations = relations(orders, ({ one }) => ({

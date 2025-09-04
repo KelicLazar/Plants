@@ -2,6 +2,8 @@ import { and, eq } from "drizzle-orm";
 
 import type { InsertCartType } from "~/lib/db/schema";
 
+import type { DBorTX } from "../types";
+
 import db from "..";
 import { carts } from "../schema";
 
@@ -37,11 +39,19 @@ export async function transferAnonymousCart(fromUserId: number, toUserId: number
   return updated;
 }
 
-export async function deleteCartItem(cartId: number) {
-  const [deleted] = await db.delete(carts)
+export async function deleteCartItem(cartId: number, database = db) {
+  const [deleted] = await database.delete(carts)
     .where(
       eq(carts.id, cartId),
     )
+    .returning();
+
+  return deleted;
+}
+
+export async function clearUserCart(userId: number, database: DBorTX = db) {
+  const deleted = await database.delete(carts)
+    .where(eq(carts.userId, userId))
     .returning();
 
   return deleted;
