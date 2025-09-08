@@ -76,7 +76,7 @@ const onSubmit = handleSubmit(async (formValues) => {
 </script>
 
 <template>
-  <div class="container flex pt-30 flex-col max-w-md-mx-auto p-4 max-w-120 m-auto">
+  <div class="container flex pt-30 flex-col max-w-md-mx-auto p-4 max-w-140 m-auto">
     <h1 class="text-lg">
       Add Product
     </h1>

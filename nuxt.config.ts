@@ -6,7 +6,16 @@ import "./lib/env";
 export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
 
-  modules: ['@nuxt/ui',"@nuxt/eslint", "@nuxt/icon", "@nuxtjs/color-mode", "@pinia/nuxt", "@vee-validate/nuxt", "nuxt-csurf"],
+  modules: [
+    "@nuxt/ui",
+    "@nuxt/eslint",
+    "@nuxt/icon",
+    "@nuxtjs/color-mode",
+    "@pinia/nuxt",
+    "@vee-validate/nuxt",
+    "nuxt-csurf",
+    "@vueuse/nuxt",
+  ],
   eslint: {
     config: {
       standalone: false, // <---
@@ -21,5 +30,8 @@ export default defineNuxtConfig({
   },
   colorMode: {
     dataValue: "theme",
+  },
+  experimental: {
+    typedPages: true,
   },
 });

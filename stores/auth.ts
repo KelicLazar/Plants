@@ -1,10 +1,11 @@
-import { anonymousClient } from "better-auth/client/plugins";
+import { adminClient, anonymousClient } from "better-auth/client/plugins";
 import { createAuthClient } from "better-auth/vue";
 import { defineStore } from "pinia";
 
 const authClient = createAuthClient({
   plugins: [
     anonymousClient(),
+    adminClient(),
   ],
 });
 
@@ -38,9 +39,14 @@ export const useAuthStore = defineStore("useAuthStore", () => {
     // console.log("loging incognito");
 
     try {
+      // const { executeRecaptcha } = useReCaptcha();
       const { csrf } = useCsrf();
+      // const token = await executeRecaptcha("sign_in_anonymous");
       const headers = new Headers();
       headers.append("csrf-token", csrf);
+      // headers.append("x-captcha-response", token);
+      // console.log(token, "tokkkeeeen");
+
       const user = await authClient.signIn.anonymous({
         fetchOptions: {
           headers,

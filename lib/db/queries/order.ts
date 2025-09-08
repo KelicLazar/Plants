@@ -19,3 +19,19 @@ export async function getOrderById(orderId: number) {
 
   return order;
 }
+
+export async function getOrdersByUser(userId: number) {
+  return database.query.orders.findMany({
+    with: {
+      orderItems: {
+        with: {
+          product: true,
+        },
+      },
+    },
+    where: eq(orders.userId, userId),
+  });
+}
+export async function getOrders() {
+  return database.select().from(orders);
+}

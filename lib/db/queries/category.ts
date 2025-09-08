@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { customAlphabet } from "nanoid";
 
 import type { InsertCategoryType } from "./../schema/category";
@@ -10,6 +10,20 @@ const nanoid = customAlphabet("1234567890qwertyuioplkjhgfdsazxcvbnm");
 
 export async function getCategories() {
   return db.query.categories.findMany();
+}
+export async function getRandomCategories(limit: number = 3) {
+  const randomCategories = await db
+    .query
+    .categories
+    .findMany({
+      with: {
+        productCategories: true,
+      },
+      orderBy: sql`RANDOM()`,
+      limit,
+    });
+
+  return randomCategories;
 }
 export async function findCategoryBySlug(slug: string) {
   return db.query.categories.findFirst({

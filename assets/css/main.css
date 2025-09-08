@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
+
 @plugin "daisyui/theme" {
   name: "autumn-dark";
   default: false;
@@ -40,6 +41,7 @@
 }
 
 
+
 html, body {
   @apply transition-colors duration-300 ease-in-out;
 }
@@ -74,8 +76,14 @@ html, body {
   to {clip-path: circle(130% at 90% 10%)}
 }
 
-.my-header.not-top:not(.hide) {
-  @apply bg-accent text-accent-content
+
+.my-header.not-top:not(.hide)
+ {
+  @apply bg-base-100 text-base-content shadow-lg
 }
+/* .my-header.not-top:not(.hide) .theme-dropdown-arrow{
+  
+  @apply !bg-accent-content !text-accent
+} */
 
 @import "./base.css";

@@ -11,11 +11,11 @@
       class="w-full  h-full object-cover"
     />
 
-    <div class="hero-overlay bg-base-200/30" />
+    <div class="hero-overlay bg-base-200/25" />
     <div class="hero-content text-neutral-content md:text-center ">
       <div class="max-w-280 ">
-        <h1 class="mb-8 text-5xl md:text-7xl xl:text-8xl font-bold">
-          <small class="">Little</small> <span class="relative whitespace-nowrap">G<span class="hidden md:inline">r</span><Icon
+        <h1 class="mb-8 text-5xl md:text-7xl xl:text-8xl font-bold text-base-content">
+          <small class="">Little</small> <span class="relative whitespace-nowrap md:text-green-600">G<span class="hidden md:inline">r</span><Icon
             class="text-green-600 md:!hidden md:scale-200 md:px-7 md:my-2"
             name="tabler:plant"
             size="30"
@@ -27,7 +27,7 @@
             />
             <span class="relative z-1">Won<span>d</span>e</span><span>r</span><span class="relative z-1">s</span></span>
         </h1>
-        <p class="mb-8 text-lg  md:text-2xl font-serif">
+        <p class="mb-8 text-lg  text-base-content md:text-2xl font-serif">
           Discover a handpicked collection of small cacti and colorful succulents — low-maintenance plants that bring life, charm, and calm to any space. Perfect for desks, shelves, and sunny corners. Rooted in beauty, grown with love.
         </p>
         <NuxtLink to="/products" class="btn btn-primary btn-lg">

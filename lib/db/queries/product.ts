@@ -58,6 +58,25 @@ export async function getProducts(
   });
 }
 
+export async function getRandomProducts(limit: number = 5) {
+  const randomProducts = await db
+    .query
+    .products
+    .findMany({
+      with: {
+        productCategories: {
+          with: {
+            category: true,
+          },
+        },
+      },
+      orderBy: sql`RANDOM()`,
+      limit,
+    });
+
+  return randomProducts;
+}
+
 export async function findProductBySlug(slug: string) {
   // console.log(slug, "Slug from query");
   return db.query.products.findFirst({

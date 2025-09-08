@@ -38,139 +38,51 @@ onMounted(() => {
 
   window.addEventListener("scroll", onScroll);
 
-  // Optional: cleanup if component unmounts
-  // onUnmounted(() => window.removeEventListener('scroll', onScroll));
-});
-
-const menuLinks = computed(() => {
-  const baseLinks = [
-    { label: "Products", to: "/products", authRequired: true },
-    { label: "Add Category", to: "/dashboard/add-category", authRequired: true },
-    { label: "Add Product", to: "/dashboard/add-product", authRequired: true },
-    { label: "Login", to: "/login", authRequired: false },
-  ];
-
-  if (authStore.user) {
-    return baseLinks.filter(link => link.authRequired);
-  }
-  else {
-    return baseLinks.filter(link => !link.authRequired);
-  }
+  onUnmounted(() => window.removeEventListener("scroll", onScroll));
 });
 </script>
 
 <template>
-  <div class="drawer drawer-end z-100">
-    <input
-      id="my-drawer-3"
-      type="checkbox"
-      class="drawer-toggle"
-    >
-    <div
-      ref="header"
-      class="my-header drawer-content z-50 bg-transparent text-base-content min-h-16 lg:py-2 fixed w-full flex flex-col"
-    >
-      <!-- Navbar -->
-      <div class="navbar m-auto px-3 mt-0 max-w-400">
-        <div class="flex-1 py-2">
-          <NuxtLink to="/" class="p-2 md:text-xl gap-2">
-            <Icon name="tabler:plant" size="24" />
-            Small Plants Shop
-          </NuxtLink>
-          <button class="btn btn-secondary" @click="authStore.signInAnonymously">
-            Anonymous login
-          </button>
-          <button class="btn btn-error" @click="() => { cartStore.refreshCart() }">
-            Refresh cart
-          </button>
-        </div>
+  <div
+    ref="header"
+    class="my-header z-100 bg-transparent hover:bg-base-100  hover:text-base-content text-base-content min-h-16  fixed w-full flex lg:py-2  flex-col"
+  >
+    <div class="navbar m-auto px-3 mt-0 max-w-400 flex justify-between">
+      <div class="flex-1 flex-row py-2">
+        <NuxtLink to="/" class="p-0 flex md:text-xl gap-2">
+          <Icon name="tabler:plant" size="24" />
+          Small Plants Shop
+        </NuxtLink>
+      </div>
 
-        <!-- Desktop menu -->
-        <div class="hidden flex-none lg:block">
-          <ul class="menu menu-horizontal gap-2 mx-2">
-            <li v-for="link in menuLinks" :key="link.to">
-              <NuxtLink :to="link.to">
-                {{ link.label }}
-              </NuxtLink>
-            </li>
-            <li v-if="authStore.user">
-              <span>Name:{{ authStore.user.name }} | ID:{{ authStore.user.id }}</span>
-            </li>
-            <li v-if="authStore.user">
-              <button @click="authStore.signOut">
-                Logout
-              </button>
-            </li>
-            <li v-if="authStore.user" class="!rounded-full overflow-hidden !outline-none active:rounded-full">
-              <AppUserAvatar
-                :user="authStore.user"
-              />
-            </li>
-            <li class="indicator">
-              <NuxtLink to="/cart" class="text-2xl flex p-1 hover:opacity-75">
-                <span
-                  v-if="cartCount"
-                  class="indicator-item text-xs badge badge-secondary top-1 right-1.5 p-1 h-5 w-5  rounded-full bg-red-500 text-white border-red-500"
-                >{{ cartCount }}</span>
-                <Icon name="tabler:shopping-cart" />
-              </NuxtLink>
-            </li>
-          </ul>
-        </div>
-
-        <UiThemeToggle />
-
-        <!-- Mobile menu button -->
-        <div class="flex-none lg:hidden">
+      <div class="drawer flex max-lg:flex-row-reverse flex-row items-center w-fit drawer-end lg:drawer-open lg:min-h-0">
+        <input
+          id="my-drawer-2"
+          type="checkbox"
+          class="drawer-toggle "
+        >
+        <div class="drawer-content">
           <label
-            for="my-drawer-3"
+            for="my-drawer-2"
             aria-label="open sidebar"
-            class="btn btn-square btn-ghost"
+            class="btn btn-square btn-ghost lg:hidden"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              class="inline-block h-6 w-6 stroke-current"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
+            <Icon name="tabler:menu-3" size="24" />
           </label>
         </div>
+        <div class="drawer-side  !overflow-visible  max-lg:h-full lg:h-auto ">
+          <label
+            for="my-drawer-2"
+            aria-label="close sidebar"
+            class="drawer-overlay"
+          />
+          <div class="max-lg:bg-base-200 max-lg:w-7/10 max-lg:text-base-content flex flex-row lg:items-center  min-h-full lg:min-h-0 max-lg:pt-20 max-lg:px-3">
+            <AppNavigationMenu />
+          </div>
+        </div>
+        <div class="divider divider-horizontal mx-0" />
+        <UiThemeToggle />
       </div>
-    </div>
-
-    <!-- Mobile drawer menu -->
-    <div class="drawer-side">
-      <label
-        for="my-drawer-3"
-        aria-label="close sidebar"
-        class="drawer-overlay"
-      />
-      <ul class="menu bg-base-300 flex flex-col text-2xl top-20 z-50 w-80 p-4 pt-30 min-h-full">
-        <li
-          v-for="link in menuLinks"
-          :key="link.to"
-          class="hover:bg-primary hover:text-primary-content"
-        >
-          <NuxtLink :to="link.to">
-            {{ link.label }}
-          </NuxtLink>
-        </li>
-        <li v-if="authStore.user" class="px-2 pt-6">
-          <span>{{ authStore.user.email }}</span>
-        </li>
-        <li v-if="authStore.user" class="px-2">
-          <button @click="authStore.signOut">
-            Logout
-          </button>
-        </li>
-      </ul>
     </div>
   </div>
 </template>

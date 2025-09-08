@@ -8,8 +8,8 @@ export default defineEventHandler(async (event) => {
     ? { ...session.user, id: +session.user.id }
     : undefined;
   if (event.path.startsWith("/dashboard")) {
-    if (!session?.user) {
-      await sendRedirect(event, "/", 302);
+    if (!session?.user.id) {
+      await sendRedirect(event, "/login", 302);
     }
   }
 });

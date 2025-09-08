@@ -2,12 +2,7 @@
 const productsStore = useProductsStore();
 const route = useRoute();
 onMounted(() => {
-  // console.log("On mounted runned,", route.params?.categoryslug[0]);
-
-  if (route.params.categoryslug) {
-    // test.value = route.params.categoryslug;
-    productsStore.currentCategory = `${route.params.categoryslug}`;
-  }
+  productsStore.currentPage = +`${route.query.page || 1}`;
 });
 
 function handleSort(orderBy: string, sort: string = "desc") {

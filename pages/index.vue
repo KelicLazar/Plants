@@ -58,7 +58,7 @@
       image-url="/succulents.jpg"
       description="Succulents are soft, compact, and endlessly captivating. Their subtle hues and geometric forms make them ideal accents for shelves, windowsills, and gift boxes. Whether you prefer trailing varieties or tight rosettes, you'll find something to love. These resilient plants retain water and beauty effortlessly, brightening any corner without demanding much attention."
     >
-      <NuxtLink class="btn btn-secondary mt-4" to="/category/cactus">
+      <NuxtLink class="btn btn-secondary mt-4" to="/category/succulents">
         Shop Succulents
         <Icon name="tabler:cactus" size="20" />
       </NuxtLink>

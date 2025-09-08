@@ -2,7 +2,9 @@
 import { useRoute } from "vue-router";
 
 const route = useRoute();
+const router = useRouter();
 const orderId = route.query.orderId as string | undefined;
+console.log(router.getRoutes());
 
 const { data: result, pending, error } = useFetch(`/api/orders/${orderId}`);
 
@@ -37,7 +39,7 @@ const items = computed(() => result.value?.items || []);
           Thank you for your order!
         </h1>
         <p class="text-base-content/70">
-          We’ve received your order and it’s being processed.
+          We've received your order and it's being processed.
         </p>
       </div>
 

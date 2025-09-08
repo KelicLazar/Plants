@@ -1,12 +1,16 @@
 <script lang="ts" setup>
 const productsStore = useProductsStore();
-
+const route = useRoute("category-cslug");
 // Computed current category based on currentCategory slug
 const currCategory = computed(() => {
   const product = productsStore.products?.[0];
   return product?.productCategories?.find(
     cat => cat.category.slug === productsStore.currentCategory,
   )?.category;
+});
+
+onMounted(() => {
+  productsStore.currentCategory = route.params.cslug as string;
 });
 </script>
 

@@ -3,6 +3,7 @@ import { int, real, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 import { addresses } from "./address";
 import { user } from "./auth";
+import { orderItems } from "./order-item";
 
 export const orders = sqliteTable("orders", {
   id: int("id").primaryKey({ autoIncrement: true }),
@@ -15,9 +16,10 @@ export const orders = sqliteTable("orders", {
   note: text("note"),
 });
 
-export const orderRelations = relations(orders, ({ one }) => ({
+export const orderRelations = relations(orders, ({ one, many }) => ({
   address: one(addresses, {
     fields: [orders.addressId],
     references: [addresses.id],
   }),
+  orderItems: many(orderItems),
 }));
