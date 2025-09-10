@@ -33,8 +33,9 @@ const themes = [
 ];
 
 function setTheme(theme: string) {
+  useColorMode().preference = theme;
+  return;
   if (!document.startViewTransition) {
-    useColorMode().preference = theme;
     return;
   }
 
@@ -42,6 +43,16 @@ function setTheme(theme: string) {
     useColorMode().preference = theme;
   });
 }
+const defaultTheme = ref("");
+onMounted(() => {
+  const savedTheme = localStorage.getItem("nuxt-color-mode");
+  if (savedTheme) {
+    defaultTheme.value = savedTheme;
+  }
+  else {
+    defaultTheme.value = useColorMode().preference;
+  }
+});
 </script>
 
 <template>
@@ -49,31 +60,31 @@ function setTheme(theme: string) {
     <!-- Trigger button (use button for reliable focus) -->
     <button
       type="button"
-      class="btn border-0 h-full px-4 py-2 shadow-none outline-0 bg-transparent hover:bg-base-200 focus:outline-none"
+      class="theme-toggle-button btn border-0 h-full px-2 lg:px-4 py-2 shadow-none outline-0 bg-transparent hover:bg-base-content/10 focus:outline-none before:h-0.5"
     >
       <div
         class="grid shrink-0 grid-cols-2 gap-0.5 p-1 transition-all
-               group-hover:border-base-content/20
-               group-focus-within:border-base-content/20
-               group-[.dropdown-open]:border-base-content/20"
+        group-hover:border-base-content/20
+        group-focus-within:border-base-content/20
+        group-[.dropdown-open]:border-base-content/20"
       >
         <!-- Square 1 -->
         <div
           class="bg-base-content size-1.5 transition-all delay-50 duration-500
-                 group-hover:translate-x-3.5 group-focus-within:translate-x-3.5 group-[.dropdown-open]:translate-x-3.5
+          group-hover:translate-x-3.5 group-focus-within:translate-x-3.5 group-[.dropdown-open]:translate-x-3.5
                  group-hover:rotate-[130deg] group-focus-within:rotate-[130deg] group-[.dropdown-open]:rotate-[130deg]"
         />
         <!-- Square 2 -->
         <div
           class="bg-primary size-1.5 transition-all delay-100 duration-300
-                 group-hover:translate-y-2 group-focus-within:translate-y-2 group-[.dropdown-open]:translate-y-2
-                 group-hover:rotate-[60deg] group-focus-within:rotate-[60deg] group-[.dropdown-open]:rotate-[60deg]"
+          group-hover:translate-y-2 group-focus-within:translate-y-2 group-[.dropdown-open]:translate-y-2
+          group-hover:rotate-[60deg] group-focus-within:rotate-[60deg] group-[.dropdown-open]:rotate-[60deg]"
         />
         <!-- Square 3 -->
         <div
           class="bg-secondary size-1.5 transition-all delay-150 duration-300
-                 group-hover:-translate-y-2 group-focus-within:-translate-y-2 group-[.dropdown-open]:-translate-y-2
-                 group-hover:-rotate-[70deg] group-focus-within:-rotate-[70deg] group-[.dropdown-open]:-rotate-[70deg]"
+        group-hover:-translate-y-2 group-focus-within:-translate-y-2 group-[.dropdown-open]:-translate-y-2
+        group-hover:-rotate-[70deg] group-focus-within:-rotate-[70deg] group-[.dropdown-open]:-rotate-[70deg]"
         />
         <!-- Square 4 -->
         <div
@@ -84,11 +95,10 @@ function setTheme(theme: string) {
         />
       </div>
 
-      <!-- Chevron that also rotates when open -->
       <Icon
         name="tabler:chevron-down"
-        class="theme-dropdown-arrow transition-transform duration-200
-               group-hover:rotate-180 group-focus-within:rotate-180 group-[.dropdown-open]:rotate-180"
+        class="max-lg:hidden theme-dropdown-arrow transition-transform duration-200
+        group-hover:rotate-180 group-focus-within:rotate-180 group-[.dropdown-open]:rotate-180"
       />
     </button>
 
@@ -104,10 +114,12 @@ function setTheme(theme: string) {
           :tabindex="index"
           type="radio"
           :value="theme"
+          :checked="defaultTheme === theme"
           name="theme-dropdown"
-          class="btn theme-controller btn-sm btn-block btn-ghost justify-start hover:bg-base-300"
-          :class="{ '!bg-primary': theme === useColorMode().preference, '!text-primary-content': theme === useColorMode().preference }"
-          :aria-label="theme.charAt(0).toUpperCase() + theme.slice(1)"
+          class="btn theme-controller btn-sm btn-block btn-ghost justify-start hover:bg-base-content/10 checked:bg-primary checked:text-primary-content hover:checked:shadow-none hover:checked:bg-primary/50"
+          :aria-label="
+            theme.charAt(0).toUpperCase()
+              + theme.slice(1)"
           @change="setTheme(theme)"
         >
       </li>

@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 import type { Product } from "~/lib/db/types";
 
 export const useProductsStore = defineStore("useProductsStore", () => {
-  const route = useRoute();
+  const route = useRoute("products-productslug");
 
   const totalCount = ref(0);
   const currentPage = ref(1);

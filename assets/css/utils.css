@@ -55,3 +55,155 @@ body:has(#my-drawer-2:checked)::-webkit-scrollbar {
     @apply absolute  w-full ;
   content: '';
   }
+
+ /* ===============================================
+   NAVIGATION MENU STYLES
+   =============================================== */
+
+/* -----------------------------------------------
+   BASE STYLES
+   ----------------------------------------------- */
+
+.navigation-menu-root {
+  @apply text-base-content;
+}
+
+.navigation-menu-list {
+  @apply border-none;
+}
+
+.navigation-menu-link {
+  @apply text-base-content text-lg relative flex flex-row;
+  @apply before:hidden after:hidden;
+}
+
+.navigation-menu-link-leading-icon {
+  @apply bg-base-content;
+}
+
+
+/* -----------------------------------------------
+   DROPDOWN/CHILD MENU STYLES
+   ----------------------------------------------- */
+
+.navigation-menu-child-list {
+  @apply border-none pl-0 ml-1 bg-inherit;
+  
+}
+
+.navigation-menu-child-item {
+  @apply pl-0;
+}
+.navigation-menu-separator {
+    @apply hidden;
+  }
+/* .navigation-menu-child-link {
+  @apply before:rounded-none;
+} */
+
+
+/* ===============================================
+   RESPONSIVE STYLES
+   =============================================== */
+
+/* -----------------------------------------------
+   MOBILE & TABLET (max-width: 1024px)
+   ----------------------------------------------- */
+
+
+@media (max-width: 1024px) {
+  .navigation-menu {
+     @apply pb-4 overflow-auto flex-col w-full justify-start items-stretch;
+  }
+  /* .navigation-menu-list {
+    @apply flex-col gap-0 items-stretch justify-start
+  } */
+
+  /* .navigation-menu-item {
+    padding: 0;
+    margin: 0;
+    position: relative;
+  } */
+
+
+  
+}
+
+/* -----------------------------------------------
+   DESKTOP (min-width: 1024px)
+   ----------------------------------------------- */
+
+@media (min-width: 1024px) {
+  /* Layout */
+  .navigation-menu-root {
+    @apply flex flex-row relative;
+  }
+
+  .navigation-menu-list {
+    @apply flex flex-row gap-1;
+  }
+.navigation-menu-content {
+  @apply bg-base-100;
+}
+
+
+  /* Hover Effects & Animations */
+  .navigation-menu-item > .navigation-menu-link::before,
+  .theme-toggle-button::before {
+    @apply bg-primary;
+    content: "";
+    display: flex;
+    height: 2px;
+    width: 100%;
+    position: absolute;
+    top: 100%;
+    transform: scaleX(0) translateY(-100%);
+    transform-origin: left;
+    transition: transform 0.3s ease-out;
+    border-radius: 0;
+  }
+
+  .navigation-menu-item:hover > .navigation-menu-link::before,
+  .theme-toggle-button:hover::before {
+    transform: scaleX(1) translateY(-100%);
+  }
+
+  /* Dropdown Behavior */
+  .navigation-menu-item:has(.navigation-menu-content):hover > .navigation-menu-link {
+    pointer-events: none;
+  }
+
+
+   .navigation-menu-child-list {
+    @apply absolute w-full left-0 opacity-0 invisible pointer-events-none;
+    transition: all 0.3s ease;
+    transform: translateX(5%);
+  }
+  .navigation-menu-item:hover .navigation-menu-child-list {
+    @apply visible pointer-events-auto z-20 opacity-100;
+    transform: translateX(0);
+   
+  }
+
+  /* Child List Positioning */
+ 
+
+  /* Single Child Item Styling */
+  /* .navigation-menu-child-item:only-child {
+    @apply col-span-2 hover:!bg-base-100;
+  } */
+
+  /* .navigation-menu-child-item:only-child .navigation-menu-link {
+    @apply hover:bg-base-100;
+  } */
+
+  /* Overlay */
+  .navigation-menu-overlay {
+    @apply bg-black/50 invisible fixed w-full h-full top-0 left-0 z-99 opacity-0 pointer-events-none;
+    transition: opacity 0.3s ease-out;
+  }
+
+  html:has(.navigation-menu-item:hover) .navigation-menu-overlay {
+    @apply opacity-100 visible;
+  }
+}

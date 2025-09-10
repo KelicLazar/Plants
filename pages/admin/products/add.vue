@@ -54,7 +54,7 @@ const onSubmit = handleSubmit(async (formValues) => {
       formData.append("categoryIds", JSON.stringify(formValues.categoryIds));
     }
 
-    const res = await $csrfFetch("/api/product", {
+    const res = await $csrfFetch("/api/products", {
       method: "post",
       body: formData,
     });

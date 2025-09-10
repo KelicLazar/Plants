@@ -1,10 +1,5 @@
 <script lang="ts" setup>
-import { computed, onMounted, ref } from "vue";
-
 const header = ref<HTMLElement | null>(null);
-const authStore = useAuthStore();
-const cartStore = useCartStore();
-const cartCount = computed(() => cartStore.cart?.length);
 
 onMounted(() => {
   let prevPosY = window.scrollY;
@@ -43,13 +38,14 @@ onMounted(() => {
 </script>
 
 <template>
+  <div class="navigation-menu-overlay" />
   <div
     ref="header"
     class="my-header z-100 bg-transparent hover:bg-base-100  hover:text-base-content text-base-content min-h-16  fixed w-full flex lg:py-2  flex-col"
   >
     <div class="navbar m-auto px-3 mt-0 max-w-400 flex justify-between">
       <div class="flex-1 flex-row py-2">
-        <NuxtLink to="/" class="p-0 flex md:text-xl gap-2">
+        <NuxtLink to="/" class="p-0 flex md:text-xl gap-2 w-fit">
           <Icon name="tabler:plant" size="24" />
           Small Plants Shop
         </NuxtLink>
@@ -70,13 +66,13 @@ onMounted(() => {
             <Icon name="tabler:menu-3" size="24" />
           </label>
         </div>
-        <div class="drawer-side  !overflow-visible  max-lg:h-full lg:h-auto ">
+        <div class="drawer-side max-lg:mt-16 max-lg:pb-16 !overflow-visible  max-lg:h-full lg:h-auto ">
           <label
             for="my-drawer-2"
-            aria-label="close sidebar"
+            aria-label="sidebar"
             class="drawer-overlay"
           />
-          <div class="max-lg:bg-base-200 max-lg:w-7/10 max-lg:text-base-content flex flex-row lg:items-center  min-h-full lg:min-h-0 max-lg:pt-20 max-lg:px-3">
+          <div class="max-lg:bg-base-200 max-lg:w-8/10 max-lg:text-base-content flex flex-row lg:items-center  h-full lg:min-h-0 max-lg:pt-4 max-lg:px-3">
             <AppNavigationMenu />
           </div>
         </div>
@@ -95,8 +91,6 @@ onMounted(() => {
   transform: translateY(-100%);
   box-shadow: unset;
 }
-
-/* Optional: custom animation */
 @keyframes ping-short {
   0% {
     transform: scale(1.25);

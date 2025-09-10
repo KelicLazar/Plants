@@ -2,7 +2,7 @@ import type { DrizzleError } from "drizzle-orm";
 
 import type { SortableField } from "~/lib/db/queries/product";
 
-import { getProducts } from "~/lib/db/queries/product";
+import { getMostPopularProducts, getProducts } from "~/lib/db/queries/product";
 import { wait } from "~/utils/wait";
 
 export default defineEventHandler(async (event) => {

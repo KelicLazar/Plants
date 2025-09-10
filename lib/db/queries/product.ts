@@ -1,11 +1,11 @@
-import { and, asc, desc, eq, exists, gte, sql } from "drizzle-orm";
+import { and, asc, desc, eq, exists, getTableColumns, gt, gte, sql } from "drizzle-orm";
 import { customAlphabet } from "nanoid";
 
 import type { InsertProductType } from "../schema";
 import type { DBorTX, Product } from "../types";
 
 import db from "..";
-import { categories, productCategories, products } from "../schema";
+import { categories, orderItems, productCategories, products } from "../schema";
 
 const nanoid = customAlphabet("1234567890qwertyuioplkjhgfdsazxcvbnm");
 const sortableFields = {
@@ -75,6 +75,20 @@ export async function getRandomProducts(limit: number = 5) {
     });
 
   return randomProducts;
+}
+
+export async function getMostPopularProducts(limit: number = 3) {
+  const mostPopularProducts = await db.select({
+    ...getTableColumns(products),
+  })
+    .from(orderItems)
+    .innerJoin(products, eq(products.id, orderItems.productId))
+    .where(gt(products.stock, 0))
+    .groupBy(products.id)
+    .orderBy(desc(sql`SUM(${orderItems.quantity})`))
+    .limit(limit);
+
+  return mostPopularProducts;
 }
 
 export async function findProductBySlug(slug: string) {

@@ -1,10 +1,12 @@
 import type { DrizzleError } from "drizzle-orm";
 
-import { getRandomProducts } from "../../lib/db/queries/product";
+import { getRandomProducts } from "~/lib/db/queries/product";
 
-export default defineEventHandler(async (_) => {
+export default defineEventHandler(async (event) => {
   try {
-    const result = await getRandomProducts(3);
+    const query = getQuery(event);
+    const limit = Number(query.limit) || 3;
+    const result = await getRandomProducts(limit);
     return result;
   }
   catch (err) {
