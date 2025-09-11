@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from "@nuxt/ui";
 
-import type { Link, Product } from "~/lib/db/types";
+import type { Link } from "~/lib/db/types";
 
 const items = ref<NavigationMenuItem[][]>([
   [
@@ -39,6 +39,7 @@ const items = ref<NavigationMenuItem[][]>([
       label: "Cart",
       icon: "tabler:shopping-cart",
       to: "/cart",
+      slot: "cart" as const,
     },
 
   ],
@@ -77,21 +78,11 @@ const userSubMenu: Link[] = [{
   to: "/logout",
   description: "Sign out of your account.",
 }];
-const { $csrfFetch } = useNuxtApp();
-
-const featuredProducts = ref<Product[]>([]);
-onMounted(async () => {
-  const data = await $csrfFetch("/api/products/popular", {
-    query: { limit: 4 },
-  });
-  console.log("this is response", data);
-
-  featuredProducts.value = data;
-});
-
+const cartStore = useCartStore();
+const cartCount = computed(() => cartStore.cart?.length);
+const eventHandlers = new Map();
 onMounted(() => {
   const navLinks = document.querySelectorAll(".navigation-menu .navigation-menu-item");
-  const eventHandlers = new Map();
   navLinks.forEach((link) => {
     const handleMouseEnter = () => {
       const isLg = window.innerWidth > 1024;
@@ -112,14 +103,13 @@ onMounted(() => {
 
     eventHandlers.set(link, { handleMouseEnter, handleMouseLeave });
   });
-
-  onUnmounted(() => {
-    eventHandlers.forEach(({ handleMouseEnter, handleMouseLeave }, link) => {
-      link.removeEventListener("mouseenter", handleMouseEnter);
-      link.removeEventListener("mouseleave", handleMouseLeave);
-    });
-    eventHandlers.clear();
+});
+onUnmounted(() => {
+  eventHandlers.forEach(({ handleMouseEnter, handleMouseLeave }, link) => {
+    link.removeEventListener("mouseenter", handleMouseEnter);
+    link.removeEventListener("mouseleave", handleMouseLeave);
   });
+  eventHandlers.clear();
 });
 </script>
 
@@ -151,7 +141,7 @@ onMounted(() => {
     }"
   >
     <template #featured-products>
-      <NavigationFeaturedProducts :products="featuredProducts" />
+      <NavigationFeaturedProducts />
     </template>
 
     <template #admin>
@@ -160,6 +150,17 @@ onMounted(() => {
 
     <template #user>
       <NavigationSubmenu :links="userSubMenu" />
+    </template>
+
+    <template #cart-trailing>
+      <UBadge
+        v-if="cartCount"
+        :label="cartCount"
+        variant="subtle"
+        size="sm"
+        color="secondary"
+        class="animate-bounce"
+      />
     </template>
   </UNavigationMenu>
 </template>
