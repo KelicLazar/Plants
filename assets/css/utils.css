@@ -110,28 +110,17 @@ body:has(#my-drawer-2:checked)::-webkit-scrollbar {
    MOBILE & TABLET (max-width: 1024px)
    ----------------------------------------------- */
 
-
+@media (min-width: 1024px) and (max-width: 1224px) {
+  .navigation-menu-link-leading-icon {
+    display: none;
+  }
+}
 @media (max-width: 1024px) {
   .navigation-menu {
      @apply pb-4 overflow-auto flex-col w-full justify-start items-stretch;
   }
-  /* .navigation-menu-list {
-    @apply flex-col gap-0 items-stretch justify-start
-  } */
 
-  /* .navigation-menu-item {
-    padding: 0;
-    margin: 0;
-    position: relative;
-  } */
-
-
-  
 }
-
-/* -----------------------------------------------
-   DESKTOP (min-width: 1024px)
-   ----------------------------------------------- */
 
 @media (min-width: 1024px) {
   /* Layout */
@@ -140,7 +129,7 @@ body:has(#my-drawer-2:checked)::-webkit-scrollbar {
   }
 
   .navigation-menu-list {
-    @apply flex flex-row gap-1;
+    @apply flex flex-row gap-0;
   }
 .navigation-menu-content {
   @apply bg-base-100;
@@ -199,11 +188,11 @@ body:has(#my-drawer-2:checked)::-webkit-scrollbar {
 
   /* Overlay */
   .navigation-menu-overlay {
-    @apply bg-black/50 invisible fixed w-full h-full top-0 left-0 z-99 opacity-0 pointer-events-none;
+    @apply bg-black/50  fixed w-full h-full top-0 left-0 z-99 opacity-0 pointer-events-none;
     transition: opacity 0.3s ease-out;
   }
 
   html:has(.navigation-menu-item:hover) .navigation-menu-overlay {
-    @apply opacity-100 visible;
+    @apply opacity-100;
   }
 }
