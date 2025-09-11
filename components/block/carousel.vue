@@ -1,21 +1,34 @@
 <script lang="ts" setup>
 import { AppProductCard } from "#components";
 
+const { title } = defineProps<{
+  title?: string;
+}>();
 const productsStore = useProductsStore();
+
+const exclude = computed(() => productsStore?.currentProduct?.id);
+const { data: products } = useFetch("/api/products/random", {
+  query: {
+    limit: 7,
+    exclude,
+  },
+});
 </script>
 
 <template>
   <section class="py-20 section-container px-3 md:px-10">
     <div class="section-heading w-full flex justify-between items-end  m-auto mb-12 text-5xl">
-      <h1 class="text-3xl md:text-5xl ">
-        Checkout our <br>Most Popular plants
-      </h1>
+      <h2
+        v-if="title"
+        class="text-3xl md:text-5xl "
+        v-html="title"
+      />
     </div>
 
     <UCarousel
-      v-if="productsStore.products"
+      v-if="products"
       v-slot="{ item }"
-      :items="productsStore.products.slice(0, 5)"
+      :items="products"
       class="w-full mx-auto py-2"
       :auto-scroll="{
         stopOnInteraction: false,

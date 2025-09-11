@@ -5,6 +5,6 @@
 <template>
   <div class="product-details pt-30">
     <AppProductDetails />
-    <!-- <BlockCarousel /> -->
+    <BlockCarousel title="Related products" />
   </div>
 </template>

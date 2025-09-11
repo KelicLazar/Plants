@@ -1,4 +1,4 @@
-import { and, asc, desc, eq, exists, getTableColumns, gt, gte, sql } from "drizzle-orm";
+import { and, asc, desc, eq, exists, getTableColumns, gt, gte, ne, sql } from "drizzle-orm";
 import { customAlphabet } from "nanoid";
 
 import type { InsertProductType } from "../schema";
@@ -58,11 +58,12 @@ export async function getProducts(
   });
 }
 
-export async function getRandomProducts(limit: number = 5) {
+export async function getRandomProducts(limit: number = 5, exclude: number | null = null) {
   const randomProducts = await db
     .query
     .products
     .findMany({
+      where: exclude ? ne(products.id, exclude) : undefined,
       with: {
         productCategories: {
           with: {

@@ -36,7 +36,7 @@
       </NuxtLink>
     </BlockExploreCategory>
 
-    <BlockCarousel />
+    <BlockCarousel title="Checkout our <br> Most Popular plants" />
 
     <BlockExploreCategory
       image="/sun.png"
