@@ -41,7 +41,8 @@ async function handleAddToCart(productId: number) {
       title: `${product.name} added to cart!`,
       color: "success",
       ui: {
-        root: "bg-success-200 text-success-content rounded-none",
+        root: "bg-success-200 rounded-none",
+        title: "text-success-content",
       },
       actions: [{
         icon: "tabler:shopping-cart",
@@ -49,7 +50,7 @@ async function handleAddToCart(productId: number) {
         color: "primary",
         variant: "solid",
         ui: {
-          base: "rounded-none cursor-pointer",
+          base: "rounded-none cursor-pointer text-primary-content",
         },
 
         onClick: (_) => {
