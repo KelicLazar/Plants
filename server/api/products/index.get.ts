@@ -2,11 +2,9 @@ import type { DrizzleError } from "drizzle-orm";
 
 import type { SortableField } from "~/lib/db/queries/product";
 
-import { getMostPopularProducts, getProducts } from "~/lib/db/queries/product";
-import { wait } from "~/utils/wait";
+import { getProducts } from "~/lib/db/queries/product";
 
 export default defineEventHandler(async (event) => {
-  await wait(0.5);
   try {
     const query = getQuery(event);
     const limit = Number.parseInt(query.limit as string) || 12;
