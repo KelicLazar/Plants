@@ -21,7 +21,7 @@ const { handleSubmit, errors, meta } = useForm({
 const submitHandler = handleSubmit(async (values) => {
   console.log(values, meta);
   isLoading.value = true;
-  const res = await $csrfFetch("/api/order", {
+  const res = await $csrfFetch("/api/orders", {
     method: "post",
     body: values,
   });
