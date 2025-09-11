@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 
-const { data: featuredProducts, status } = useCsrfFetch("/api/products/popular", {
+const { data: featuredProducts, status } = useFetch("/api/products/popular", {
   query: { limit: 4 },
 });
 const isLoading = computed(() => status.value === "pending" || status.value === "idle");
@@ -11,7 +11,6 @@ const hoveredId = ref<number | null>(null);
 
 <template>
   <div class="grid w-full col-span-2 grid-cols-12 max-lg:grid-cols-1 py-2 lg:p-4 gap-8 bg-transparent">
-    >
     <template v-if="isLoading">
       <div class="z-20 order-2 col-span-5 max-lg:hidden relative">
         <div class="aspect-square w-full bg-base-200 animate-pulse rounded-lg" />
