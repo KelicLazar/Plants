@@ -1,6 +1,13 @@
+let isFirstNavigation = true;
+
 export default defineNuxtRouteMiddleware(async (to) => {
   if (import.meta.server)
     return;
+
+  if (isFirstNavigation) {
+    isFirstNavigation = false;
+    return;
+  }
 
   const authStore = useAuthStore();
 

@@ -1,4 +1,4 @@
-import { and, eq } from "drizzle-orm";
+import { and, desc, eq } from "drizzle-orm";
 
 import type { DBorTX } from "../types";
 
@@ -30,6 +30,7 @@ export async function getOrdersByUser(userId: number) {
       },
     },
     where: eq(orders.userId, userId),
+    orderBy: desc(orders.createdAt),
   });
 }
 export async function getOrders() {
