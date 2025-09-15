@@ -3,16 +3,10 @@ import slugify from "slug";
 import { findUniqueProductSlug, insertProduct } from "~/lib/db/queries/product";
 import { InsertProduct } from "~/lib/db/schema";
 import env from "~/lib/env";
+import defineAdminEventHandler from "~/utils/define-admin-event-handler";
 
 // server/api/product.post.ts
-export default defineEventHandler(async (event) => {
-  if (!event.context.user) {
-    return sendError(event, createError({
-      statusCode: 401,
-      statusMessage: "Unauthorized",
-    }));
-  }
-
+export default defineAdminEventHandler(async (event) => {
   const formData = await readMultipartFormData(event);
 
   if (!formData) {

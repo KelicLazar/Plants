@@ -1,3 +1,5 @@
+import type { UserWithAnonymous, UserWithRole } from "better-auth/plugins";
+import type { H3Event, H3EventContext } from "h3";
 import type { RouteLocationRaw } from "vue-router";
 
 import type db from ".";
@@ -14,3 +16,9 @@ export type CartItem = Awaited<ReturnType<typeof getCart>>[number];
 export type Order = Awaited<ReturnType<typeof getOrdersByUser>>[number];
 
 export type Link = { label?: string; icon?: string; to?: RouteLocationRaw; description: string };
+
+export type AuthenticatedEvent = H3Event & {
+  context: H3EventContext & {
+    user: UserWithAnonymous & UserWithRole & { id: number };
+  };
+};

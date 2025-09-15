@@ -27,6 +27,10 @@
   body:has(#my-drawer-2:checked)::-webkit-scrollbar {
     display: none; /* Chrome, Safari */
   }
+
+  .navigation-menu-link-trailing:has( > .cart-link){
+    @apply ml-0
+  }
 }
 
 html:has(#my-drawer-2:checked)::-webkit-scrollbar,

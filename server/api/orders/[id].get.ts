@@ -1,13 +1,8 @@
 import { getOrderById } from "~/lib/db/queries/order";
 import { getOrderItemsByOrderId } from "~/lib/db/queries/order-items";
+import defineAnonymousEventHandler from "~/utils/define-anonymous-event-handler";
 
-export default defineEventHandler(async (event) => {
-  if (!event.context.user) {
-    return sendError(event, createError({
-      statusCode: 401,
-      statusMessage: "Unauthorized!!!",
-    }));
-  }
+export default defineAnonymousEventHandler(async (event) => {
   const orderId = getRouterParam(event, "id");
   if (!orderId) {
     return sendError(

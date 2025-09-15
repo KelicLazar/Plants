@@ -4,15 +4,10 @@ import slugify from "slug";
 
 import { findCategoryByName, findUniqueCategorySlug, insertCategory } from "~/lib/db/queries/category";
 import { InsertCategory } from "~/lib/db/schema";
+import defineAdminEventHandler from "~/utils/define-admin-event-handler";
 import sendZodError from "~/utils/send-zod-error";
 
-export default defineEventHandler(async (event) => {
-  if (!event.context.user) {
-    return sendError(event, createError({
-      statusCode: 401,
-      statusMessage: "Unauthorized!!!",
-    }));
-  }
+export default defineAdminEventHandler(async (event) => {
   const result = await readValidatedBody(event, InsertCategory.safeParse);
   if (!result.success) {
     return sendZodError(event, result.error as any);

@@ -1,12 +1,7 @@
 import { deleteCartItem } from "~/lib/db/queries/cart";
+import defineAnonymousEventHandler from "~/utils/define-anonymous-event-handler";
 
-export default defineEventHandler(async (event) => {
-  if (!event.context.user) {
-    return sendError(event, createError({
-      statusCode: 401,
-      statusMessage: "Unauthorized!!!",
-    }));
-  }
+export default defineAnonymousEventHandler(async (event) => {
   const body = await readBody(event);
 
   if (body.cartId) {

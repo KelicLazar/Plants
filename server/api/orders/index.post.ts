@@ -7,18 +7,12 @@ import { insertOrder } from "~/lib/db/queries/order";
 import { insertOrderItem } from "~/lib/db/queries/order-items";
 import { updateProductStock } from "~/lib/db/queries/product";
 import { AddressFormSchema } from "~/lib/db/schema";
+import defineAnonymousEventHandler from "~/utils/define-anonymous-event-handler";
 import extractErrorMessage from "~/utils/extract-error-message";
 import sendZodError from "~/utils/send-zod-error";
 import { wait } from "~/utils/wait";
 
-export default defineEventHandler(async (event) => {
-  if (!event.context.user || !event.context.user.id) {
-    return sendError(event, createError({
-      statusCode: 401,
-      statusMessage: "Unauthorized!!!",
-    }));
-  }
-
+export default defineAnonymousEventHandler(async (event) => {
   const result = await readValidatedBody(event, AddressFormSchema.extend({
     note: z.string().min(1),
   }).safeParse);

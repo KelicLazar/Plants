@@ -3,47 +3,86 @@ import type { NavigationMenuItem } from "@nuxt/ui";
 
 import type { Link } from "~/lib/db/types";
 
-const items = ref<NavigationMenuItem[][]>([
-  [
-    {
-      label: "All Products",
-      icon: "tabler:plant",
-      to: "/products",
-    },
-    {
-      label: "Featured Products",
-      icon: "i-lucide-star",
-      children: [
-        {
-          slot: "featured-products" as const,
-        },
-      ],
-    },
-    {
-      label: "Admin",
-      icon: "i-lucide-user-cog",
-      children: [
-        {
-          slot: "admin" as const,
-        },
-      ],
-    },
-    { label: "My Account", icon: "tabler:user-square", children: [
-      {
-        slot: "user" as const,
-      },
-    ] },
-  ],
-  [
-    {
-      label: "Cart",
-      icon: "tabler:shopping-cart",
-      to: "/cart",
-      slot: "cart" as const,
-    },
+const authStore = useAuthStore();
 
+const isAdmin = computed(() => {
+  return authStore?.user?.role === "admin";
+});
+
+const isAnonymous = computed(() => {
+  return !authStore.user || authStore.user.isAnonymous;
+});
+
+const baseItems: NavigationMenuItem[] = [
+  {
+    label: "All Products",
+    icon: "tabler:plant",
+    to: "/products",
+  },
+  {
+    label: "Featured Products",
+    icon: "i-lucide-star",
+    children: [
+      {
+        slot: "featured-products" as const,
+      },
+    ],
+  },
+];
+
+const adminMenuItem: NavigationMenuItem = {
+  label: "Admin",
+  icon: "i-lucide-user-cog",
+  slot: "admin" as const,
+  children: [
+    {
+      slot: "admin-submenu" as const,
+    },
   ],
-]);
+};
+
+const userMenuItem: NavigationMenuItem = {
+  label: "My Account",
+  icon: "tabler:user-square",
+  children: [
+    {
+      slot: "user" as const,
+    },
+  ],
+};
+
+const loginMenuItem: NavigationMenuItem = {
+  label: "Login",
+  icon: "tabler:login",
+  to: "/login",
+};
+
+const cartMenuItem: NavigationMenuItem = {
+  label: "Cart",
+  icon: "tabler:shopping-cart",
+  to: "/cart",
+  slot: "cart" as const,
+};
+
+const items = computed<NavigationMenuItem[][]>(() => {
+  const firstGroup: NavigationMenuItem[] = [...baseItems];
+
+  if (authStore.user && isAdmin.value) {
+    firstGroup.push(adminMenuItem);
+  }
+
+  if (!isAnonymous.value) {
+    firstGroup.push(userMenuItem);
+  }
+  else {
+    firstGroup.push(loginMenuItem);
+  }
+
+  return [
+    firstGroup,
+    [cartMenuItem],
+  ];
+});
 
 const adminSubMenu: Link[] = [{
   label: "Add Product",
@@ -71,16 +110,18 @@ const userSubMenu: Link[] = [{
   label: "Orders",
   icon: "tabler:truck-delivery",
   to: "/user/orders",
-  description: "Create and publish a new product.",
+  description: "View your order history.",
 }, {
   label: "Logout",
   icon: "tabler:logout",
   to: "/logout",
   description: "Sign out of your account.",
 }];
+
 const cartStore = useCartStore();
 const cartCount = computed(() => cartStore.cart?.length);
 const eventHandlers = new Map();
+
 onMounted(() => {
   const navLinks = document.querySelectorAll(".navigation-menu .navigation-menu-item");
   navLinks.forEach((link) => {
@@ -104,6 +145,7 @@ onMounted(() => {
     eventHandlers.set(link, { handleMouseEnter, handleMouseLeave });
   });
 });
+
 onUnmounted(() => {
   eventHandlers.forEach(({ handleMouseEnter, handleMouseLeave }, link) => {
     link.removeEventListener("mouseenter", handleMouseEnter);
@@ -144,7 +186,7 @@ onUnmounted(() => {
       <NavigationFeaturedProducts />
     </template>
 
-    <template #admin>
+    <template #admin-submenu>
       <NavigationSubmenu :links="adminSubMenu" />
     </template>
 
@@ -159,7 +201,7 @@ onUnmounted(() => {
         variant="subtle"
         size="sm"
         color="secondary"
-        class="animate-bounce"
+        class="cart-link lg:animate-bounce"
       />
     </template>
   </UNavigationMenu>

@@ -1,9 +1,10 @@
 import z from "zod";
 
 import { updateCart } from "~/lib/db/queries/cart";
+import defineAnonymousEventHandler from "~/utils/define-anonymous-event-handler";
 import sendZodError from "~/utils/send-zod-error";
 
-export default defineEventHandler(async (event) => {
+export default defineAnonymousEventHandler(async (event) => {
   const result = await readValidatedBody(event, z.object({
     id: z.number(),
     quantity: z.number(),

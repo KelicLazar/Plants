@@ -1,14 +1,9 @@
 import type { CartItem } from "~/lib/db/types";
 
 import { deleteCartItem, getCart, updateCart } from "~/lib/db/queries/cart";
+import defineAnonymousEventHandler from "~/utils/define-anonymous-event-handler";
 
-export default defineEventHandler(async (event) => {
-  if (!event.context.user) {
-    return sendError(event, createError({
-      statusCode: 401,
-      statusMessage: "Unauthorized!!!",
-    }));
-  }
+export default defineAnonymousEventHandler(async (event) => {
   let cart = await getCart(event.context.user.id);
   const changes: { item: CartItem; status: "updated" | "removed" }[] = [];
   for (const item of cart) {

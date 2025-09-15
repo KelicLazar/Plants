@@ -1,23 +1,15 @@
-import type { User } from "better-auth";
-import type { UserWithAnonymous, UserWithRole } from "better-auth/plugins";
-import type { H3Event, H3EventContext } from "h3";
+import type { AuthenticatedEvent } from "~/lib/db/types";
 
-type AdminEvent = H3Event & {
-  context: H3EventContext & {
-    user: UserWithAnonymous & UserWithRole;
-  };
-};
-
-export default function defineAdminEventHandler<T>(handler: (event: AdminEvent) => T) {
+export default function defineAdminEventHandler<T>(handler: (event: AuthenticatedEvent) => T) {
   return defineEventHandler(async (event) => {
-    if (!event.context.user) {
+    if (!event.context.user || event.context.user.role !== "admin") {
       return sendError(event, createError({
         statusCode: 401,
-        statusMessage: "Unauthorized",
+        statusMessage: "You need admin permissions to do this.",
       }));
     }
     console.log(event.context.user);
 
-    return handler(event as AdminEvent);
+    return handler(event as AuthenticatedEvent);
   });
 }

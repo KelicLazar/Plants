@@ -1,13 +1,7 @@
 import { getOrdersByUser } from "~/lib/db/queries/order";
+import defineUserEventHandler from "~/utils/define-user-event-handler";
 
-export default defineEventHandler(async (event) => {
-  if (!event.context.user) {
-    return sendError(event, createError({
-      statusCode: 401,
-      statusMessage: "Unauthorized!!!",
-    }));
-  }
-
+export default defineUserEventHandler(async (event) => {
   const orders = await getOrdersByUser(event.context.user.id);
   console.log(orders);
 

@@ -1,9 +1,10 @@
 import { addToCart, findCartItem, updateCart } from "~/lib/db/queries/cart";
 import { findProductById } from "~/lib/db/queries/product";
 import { insertCartSchema } from "~/lib/db/schema";
+import defineAnonymousEventHandler from "~/utils/define-anonymous-event-handler";
 import sendZodError from "~/utils/send-zod-error";
 
-export default defineEventHandler(async (event) => {
+export default defineAnonymousEventHandler(async (event) => {
   const result = await readValidatedBody(event, insertCartSchema.safeParse);
   if (!result.success) {
     return sendZodError(event, result.error as any);
