@@ -14,7 +14,7 @@ import { wait } from "~/utils/wait";
 
 export default defineAnonymousEventHandler(async (event) => {
   const result = await readValidatedBody(event, AddressFormSchema.extend({
-    note: z.string().min(1),
+    note: z.string(),
   }).safeParse);
 
   if (!result.success) {
