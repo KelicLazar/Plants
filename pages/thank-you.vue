@@ -1,14 +1,18 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router";
 
+import type { Order, OrderItem } from "~/lib/db/types";
+
 const route = useRoute();
-const router = useRouter();
 const orderId = route.query.orderId as string | undefined;
-console.log(router.getRoutes());
 
-const { data: result, pending, error } = useFetch(`/api/orders/${orderId}`);
+const { data: result, pending, error } = useFetch<{ order: Order; items: OrderItem[] }>(`/api/orders/${orderId}`);
 
-const order = computed(() => result.value?.order);
+if (error?.value?.statusCode === 401) {
+  navigateTo("/");
+}
+
+const order = computed(() => result.value?.order || null);
 const items = computed(() => result.value?.items || []);
 </script>
 
@@ -16,7 +20,7 @@ const items = computed(() => result.value?.items || []);
   <div class="min-h-screen bg-base-100 flex items-center justify-center p-6">
     <div class="max-w-2xl w-full card bg-base-200 shadow-xl p-6 space-y-6">
       <!-- Success header -->
-      <div class="text-center">
+      <div v-if="!error && !pending && order" class="text-center">
         <div class="flex justify-center mb-4">
           <div class="btn btn-circle btn-success btn-lg text-white">
             <svg
@@ -52,7 +56,7 @@ const items = computed(() => result.value?.items || []);
       </div>
 
       <!-- Order details -->
-      <div v-else-if="order" class="space-y-2">
+      <div v-else-if="order && !error" class="space-y-2">
         <h2 class="font-semibold text-lg">
           Order Details
         </h2>

@@ -66,7 +66,7 @@ onMounted(() => {
 
         <div class="text-xl font-bold text-primary" />
         <button
-          class="btn btn-primary max-md:sticky max-md:bottom-0 md:btn-lg lg:btn-xl md:h-20 text-primary-content w-full hover:bg-primary-content hover:text-primary"
+          class="btn btn-primary max-md:sticky max-md:bottom-0 md:btn-lg lg:btn-xl  text-primary-content w-full hover:bg-primary-content hover:text-primary"
           :class="{ 'skeleton': isUpdating, 'cursor-not-allowed': isUpdating }"
           :disabled="isUpdating"
           @click="navigateTo('/checkout')"

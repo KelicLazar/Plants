@@ -55,18 +55,15 @@ onMounted(() => {
 
 <template>
   <div
-    class="section-container checkout-page pt-30 px-4"
+    class="section-container checkout-page pt-30 px-4 pb-20"
   >
     <h1 class="text-3xl">
       Checkout page
-      <pre>
-        {{ errors }}
-      </pre>
     </h1>
     <span class="text-2xl mt-5 flex mb-3">Enter details for delivery</span>
-    <form class="flex flex-row items-start gap-10 " @submit.prevent="submitHandler">
+    <form class="flex flex-col lg:flex-row items-start gap-10 " @submit.prevent="submitHandler">
       <div
-        class="flex-7  checkout-form grid  grid-cols-12 gap-2"
+        class="flex-7 w-full checkout-form grid  grid-cols-12 gap-2"
       >
         <AppInputField
           :error="errors.firstName"
@@ -98,21 +95,21 @@ onMounted(() => {
           :error="errors.streetAddress"
           name="streetAddress"
           label="Street Address *"
-          class="col-span-6"
+          class="col-span-12 md:col-span-6"
         />
 
         <AppInputField
           :error="errors.city"
           name="city"
           label="City *"
-          class="col-span-3"
+          class="col-span-6 md:col-span-3"
         />
 
         <AppInputField
           :error="errors.postalCode"
           name="postalCode"
           label="Zip / Postal Code *"
-          class="col-span-3"
+          class="col-span-6 md:col-span-3"
         />
 
         <AppInputField
@@ -123,9 +120,9 @@ onMounted(() => {
           label="Note"
         />
       </div>
-      <div class="flex-5 cart-info col-span-5">
+      <div class="flex-5 cart-info col-span-5  w-full">
         <div
-          v-if="cartStore.cart.length === 0"
+          v-if="cartStore.cart.length === 0 && cartStore.cartStatus === 'success'"
           class="flex flex-col items-center justify-center text-center space-y-4 p-10 bg-base-200  border border-base-300 shadow-sm"
         >
           <div class="w-16 h-16 flex items-center justify-center rounded-full bg-base-300 text-base-content/70">
@@ -143,80 +140,58 @@ onMounted(() => {
             Browse Products
           </NuxtLink>
         </div>
-        <table v-else class="table table-fixed w-full ">
-          <thead>
-            <tr>
-              <th class="w-full p-0">
-                Products
-              </th>
-
-              <th class="text-right w-40">
-                Total
-              </th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <template
-              v-if="cartStore.cartStatus === 'pending' || cartStore.cartStatus === 'idle'"
+        <CheckoutSummarySkeleton v-else-if="cartStore.cartStatus === 'pending' || cartStore.cartStatus === 'idle'" />
+        <div v-else class="checkout-summary border-0 shadow-md border-base-content bg-base-200 p-3">
+          <div class="checkout-summary-heading flex py-4 justify-between border-b-1 border-base-content/50">
+            <span>Products</span>
+            <span>Total</span>
+          </div>
+          <div class="checkout-summary-products-list">
+            <div
+              v-for="item in cartStore.cart"
+              :key="item.id"
+              class="checkout-summary-product-item py-2  flex items-center"
             >
-              <tr
-                v-for="item in 5"
-                :key="item"
-              >
-                <td class="skeleton h-12 " />
-                <td class="skeleton h-12 " />
-              </tr>
-            </template>
-            <template
-              v-else
+              <div class="flex  items-center gap-2 text-md relative p-0">
+                <div class="relative mr-2">
+                  <img
+                    v-if="item.product.mainImage"
+                    :src="item.product.mainImage"
+                    :alt="item.product.name"
+                    class="w-14 aspect-square  object-cover"
+                  >
+                  <span class="badge badge-soft border-2 aspect-square rounded-full absolute flex items-center justify-center  p-0 right-0 top-0 translate-x-1.5 -translate-y-1.5">{{ item.quantity }}</span>
+                </div>
+                <span class="text-md md:text-lg">{{ item.product.name }}</span>
+              </div>
+              <div class="text-base-content ml-auto text-lg text-right">
+                {{ (item.quantity * item.product.price).toLocaleString() }} RSD
+              </div>
+            </div>
+          </div>
+          <div class="py-4 flex justify-between border-b-1 border-base-content">
+            <span class="text-base-content/50">Free Shipping:</span>
+            <span class="">
+              0 RSD
+            </span>
+          </div>
+          <div class="checkout-summary-footer text-xl flex py-4  justify-between font-bold text-primary">
+            <span>Total:</span>
+            <span class="">
+              {{ (cartTotal || 0).toLocaleString() }} RSD
+            </span>
+          </div>
+          <div class="checkout-summary-actions">
+            <button
+              :disabled="isLoading"
+              :class="{ skeleton: isLoading }"
+              class="sticky bottom-10 lg:flex lg:bottom-unset btn btn-xl btn-primary w-full hover:text-primary hover:bg-primary-content"
             >
-              <tr
-                v-for="item in cartStore.cart"
-                :key="item.id"
-                class="py-2 pb-5 mb-4"
-              >
-                <td class="flex  items-center gap-2 my-2 text-md relative p-0">
-                  <div class="relative mr-2">
-                    <img
-                      v-if="item.product.mainImage"
-                      :src="item.product.mainImage"
-                      :alt="item.product.name"
-                      class="w-14 aspect-square  object-cover"
-                    >
-                    <span class="badge badge-soft border-2 aspect-square rounded-full absolute flex items-center justify-center  p-0 right-0 top-0 translate-x-1.5 -translate-y-1.5">{{ item.quantity }}</span>
-                  </div>
-                  <span class="text-lg">{{ item.product.name }}</span>
-                </td>
-                <td class="text-primary text-lg text-right">
-                  {{ (item.quantity * item.product.price).toLocaleString() }} RSD
-                </td>
-              </tr>
-            </template>
-          </tbody>
-          <tfoot class="bg-base-200  w-full ">
-            <tr class="w-full bg-base-300">
-              <th colspan="1" class="text-left text-lg">
-                Total:
-              </th>
-              <th colspan="1" class="text-xl text-right font-bold text-primary">
-                {{ (cartTotal || 0).toLocaleString() }} RSD
-              </th>
-            </tr>
-            <tr class="">
-              <th colspan="4" class="p-0 ">
-                <button
-                  :disabled="isLoading"
-                  :class="{ skeleton: isLoading }"
-                  class="btn btn-xl btn-primary w-full hover:text-primary hover:bg-primary-content"
-                >
-                  <span v-if="!isLoading">  Order Now</span>
-                  <span v-else class="animate-pulse ">Processing..</span>
-                </button>
-              </th>
-            </tr>
-          </tfoot>
-        </table>
+              <span v-if="!isLoading">  Order Now</span>
+              <span v-else class="animate-pulse ">Processing..</span>
+            </button>
+          </div>
+        </div>
       </div>
     </form>
   </div>

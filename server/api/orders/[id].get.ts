@@ -16,6 +16,17 @@ export default defineAnonymousEventHandler(async (event) => {
 
   const order = await getOrderById(+orderId);
 
+  if (order.userId !== event.context.user.id) {
+    return sendError(
+      event,
+      createError({
+        statusCode: 401,
+        statusMessage: "Unauthorized.",
+        cause: "Unauthorized",
+      }),
+    );
+  }
+
   if (!order) {
     return sendError(
       event,

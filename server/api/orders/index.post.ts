@@ -10,7 +10,6 @@ import { AddressFormSchema } from "~/lib/db/schema";
 import defineAnonymousEventHandler from "~/utils/define-anonymous-event-handler";
 import extractErrorMessage from "~/utils/extract-error-message";
 import sendZodError from "~/utils/send-zod-error";
-import { wait } from "~/utils/wait";
 
 export default defineAnonymousEventHandler(async (event) => {
   const result = await readValidatedBody(event, AddressFormSchema.extend({
@@ -24,9 +23,6 @@ export default defineAnonymousEventHandler(async (event) => {
   const { note, ...addressData } = result.data;
   const userId = event.context.user.id;
   try {
-    const randomWaitTime = Math.floor(Math.random() * 5) + 2;
-    console.log("userid", userId, randomWaitTime, "waiting....");
-    await wait(randomWaitTime);
     const orderResult = await db.transaction(async (tx) => {
       // INSERT ADDRESS
       const insertedAddress = await insertAddress(addressData, userId, tx);
