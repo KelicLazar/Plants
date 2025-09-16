@@ -16,7 +16,7 @@ const { data: products } = useFetch("/api/products/random", {
 </script>
 
 <template>
-  <section class="py-20 section-container px-3 md:px-10">
+  <section class="py-20 section-container">
     <div class="section-heading w-full flex justify-between items-end  m-auto mb-12 text-5xl">
       <h2
         v-if="title"

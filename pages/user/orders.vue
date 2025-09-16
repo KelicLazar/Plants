@@ -165,7 +165,7 @@ const expanded = ref();
   </div>
 </template>
 
-<style>
+<style scoped>
 @media (max-width: 1024px) {
   thead tr th:nth-child(2),
   thead tr th:nth-child(4),

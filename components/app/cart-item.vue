@@ -3,8 +3,9 @@
 // @ts-nocheck
 import type { CartItem } from "~/lib/db/types";
 
-const { item } = defineProps<{
+const { item, setUpdating } = defineProps<{
   item: CartItem;
+  setUpdating?: (value: boolean) => void;
 }
 >();
 const { $csrfFetch } = useNuxtApp();
@@ -30,6 +31,7 @@ watch(quantity, (newVal) => {
 });
 
 async function updateQuantity(itemId: number, newQuantity: number) {
+  setUpdating(true);
   if (newQuantity < 1) {
     quantity.value = 0;
     newQuantity = 0;
@@ -65,6 +67,7 @@ async function updateQuantity(itemId: number, newQuantity: number) {
   }
   finally {
     isLoading.value = false;
+    setUpdating(false);
   }
 }
 
@@ -101,95 +104,111 @@ async function removeFromCart(itemId: number) {
 </script>
 
 <template>
-  <tr
-    class="hover"
-  >
-    <td class="max-w-4">
-      <button
-        class="btn btn-sm btn-error btn-outline"
-
-        @click="removeFromCart(item.id)"
-      >
-        <Icon
-          name="tabler:trash"
-          size="16"
-        />
-      </button>
-    </td>
-    <td>
-      <NuxtLink :to="`/products/${item.product.slug}`" class="flex items-center gap-3">
-        <div class="avatar">
-          <div class="h-10 w-10 md:h-16 md:w-16">
-            <img
-              v-if="item?.product?.mainImage"
-              :src="item?.product?.mainImage"
-              :alt="item.product.name"
-              class="object-cover"
-            >
-          </div>
-        </div>
-        <div>
-          <div class="font-bold text-base hidden md:flex">
-            {{ item.product.name }}
-          </div>
-          <div class="text-sm opacity-50 hidden lg:flex">
-            {{ item.product.description || 'No description' }}
-          </div>
-        </div>
-      </NuxtLink>
-    </td>
-
-    <!-- Price -->
-    <td class="p-1">
-      <div class="md:text-lg font-semibold flex w-20 md:w-25 flex-col">
-        {{ item.product.price }} RSD
-        <span class="badge badge-soft text-xs px-1 md:px-2 badge-success" :class="{ 'badge-warning': item.product.stock < 10, '!badge-error': item.product.stock < 5 }">In stock: {{ item.product.stock }}</span>
+  <div class="flex gap-2 md:gap-4 mb-8 justify-between">
+    <div class="product-image shrink-0 ">
+      <div class="flex">
+        <img
+          v-if="item?.product?.mainImage"
+          :src="item?.product?.mainImage"
+          :alt="item.product.name"
+          class="w-20 md:w-32 lg:w-40 object-cover"
+        >
       </div>
-    </td>
+    </div>
+    <div class="product-info flex-1 ">
+      <div class="product-details">
+        <NuxtLink :to="`/products/${item.product.slug}`" class="flex items-center gap-3">
+          <div>
+            <div class="font-bold md:text-xl flex">
+              {{ item.product.name }}
+            </div>
+            <div class="text-md opacity-50 hidden lg:flex">
+              {{ item.product.description || 'No description' }}
+            </div>
+            <div class="flex flex-col mt-2 gap-1">
+              <span class="badge badge-soft text-xs px-1 md:px-2 badge-success" :class="{ 'badge-warning': item.product.stock < 10, '!badge-error': item.product.stock < 5 }">In stock: {{ item.product.stock }}</span>
 
-    <!-- Quantity Input -->
-    <td>
-      <div class="flex gap-2  items-center">
+              <span class="text-sm opacity-50 ">
+                {{ item.product.price.toLocaleString() }} RSD / pc
+              </span>
+            </div>
+          </div>
+        </NuxtLink>
+      </div>
+      <div class="product-actions flex items-stretch gap-2 mt-4">
+        <div
+          class="quantity-actions h-10 w-fit border-1 border-base-content/30 py-1 px-2  flex items-center"
+          :class="{ 'skeleton': isLoading, 'cursor-not-allowed': isLoading }"
+        >
+          <button
+            class="w-5 h-5 bg-transparent cursor-pointer"
+            :class="{ 'cursor-not-allowed': isLoading }"
+            :disabled="isLoading"
+            @click="updateQuantity(item.id, item.quantity - 1)"
+          >
+            <Icon name="tabler:minus" size="14" />
+          </button>
+
+          <input
+            v-model.number="quantity"
+            type="number"
+            min="1"
+            :max="item.product.stock"
+            class="  input input-sm  h-8 p-0 w-8 md:w-16 !border-none !bg-transparent !outline-none !shadow-none text-center"
+            :disabled="isLoading"
+            @blur="updateQuantity(item.id, quantity)"
+            @keyup.enter="updateQuantity(item.id, quantity)"
+          >
+          <!-- <div>{{ quantity }}</div> -->
+
+          <button
+            class="w-5 h-5 bg-transparent cursor-pointer"
+            :disabled="isLoading"
+            :class="{ 'cursor-not-allowed': isLoading }"
+            @click="updateQuantity(item.id, item.quantity + 1)"
+          >
+            <Icon name="tabler:plus" size="14" />
+          </button>
+        </div>
         <button
-          class="btn w-5 h-5 md:btn-sm btn-outline btn-circle"
+          class="border-1 h-10 w-10 flex items-center justify-center border-error/30 hover:bg-error/30 group transition-all cursor-pointer"
           :disabled="isLoading"
-          @click="updateQuantity(item.id, item.quantity - 1)"
+          :class="{ '!cursor-not-allowed': isLoading }"
+          @click="removeFromCart(item.id)"
         >
-          <Icon name="tabler:minus" size="14" />
-        </button>
-
-        <div v-if="isLoading" class="skeleton  h-8 w-8 md:w-16 " />
-
-        <input
-          v-else
-          v-model.number="quantity"
-          type="number"
-          min="1"
-          :max="item.product.stock"
-          class="input input-sm input-bordered h-8 p-0 w-8 md:w-16 text-center"
-          :disabled="isLoading"
-          @blur="updateQuantity(item.id, quantity)"
-          @keyup.enter="updateQuantity(item.id, quantity)"
-        >
-
-        <button
-          class="btn w-5 h-5 md:btn-sm btn-outline btn-circle"
-          :disabled="isLoading"
-          @click="updateQuantity(item.id, item.quantity + 1)"
-        >
-          <Icon name="tabler:plus" size="14" />
+          <Icon
+            name="tabler:trash"
+            size="20"
+            class=" bg-error group-hover:bg-white/80"
+          />
         </button>
       </div>
-    </td>
-
-    <!-- Total Price -->
-    <td>
-      <div class="text-lg font-bold text-primary w-30">
-        <div v-if="isLoading" class="skeleton h-6 w-full" />
+      <div class="product-total-mobile mt-2 text-xl hidden md:flex lg:hidden">
+        <div v-if="isLoading" class="skeleton h-8 w-28" />
         <span v-else>
           {{ (item.product.price * quantity).toLocaleString() }} RSD
         </span>
       </div>
-    </td>
-  </tr>
+    </div>
+
+    <div class="product-total md:text-xl ml-auto md:hidden lg:flex">
+      <div v-if="isLoading" class="skeleton h-8 w-28" />
+      <span v-else>
+        {{ (item.product.price * quantity).toLocaleString() }} RSD
+      </span>
+    </div>
+  </div>
 </template>
+
+<style scoped>
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+</style>
