@@ -13,7 +13,7 @@ import sendZodError from "~/utils/send-zod-error";
 
 export default defineAnonymousEventHandler(async (event) => {
   const result = await readValidatedBody(event, AddressFormSchema.extend({
-    note: z.string(),
+    note: z.string().optional(),
   }).safeParse);
 
   if (!result.success) {
